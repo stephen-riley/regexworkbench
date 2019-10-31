@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!--
+        TODO: add CSP stuff
+    -->
+    <link rel="stylesheet" type="text/css" href="regexworkbench.css">
+    <title>Regular Expression Workbench</title>
+</head>
+
+<body>
+    <div id="mode-section" class="section">
+        <button id="match-btn" class="mode-btn">Match</button>
+        <button id="matchall-btn" class="mode-btn">Match All</button>
+        <button id="split-btn" class="mode-btn">Split</button>
+        <button id="replace-btn" class="mode-btn">Replace</button>
+        <button id="replaceall-btn" class="mode-btn">Replace All</button>
+    </div>
+
+    <div id="regex-section" class="section">
+        <span class="section-header">Regular Expression</span>
+        <textarea id="regex" class="ta"></textarea>
+        /
+        <a>i</a>
+        <a>m</a>
+        <a>s</a>
+        <a>x</a>
+    </div>
+
+    <div id="replacement-section" class="section">
+        <span class="section-header">Replacement</span>
+        <textarea id="replacement" class="ta"></textarea>
+    </div>
+
+    <div id="search-section" class="section">
+        <span class="section-header">Search Text</span>
+        <textarea id="search" class="ta"></textarea>
+    </div>
+
+    <div id="replaced-section" class="section">
+        <span class="section-header">Replaced Text</span>
+        <textarea id="replaced" class="ro ta"></textarea>
+    </div>
+
+    <div id="results-section" class="section">
+        <span class="section-header">Replace Results</span>
+        <textarea id="results" class="ro ta"></textarea>
+    </div>
+
+    <div id="splitresults-section" class="section">
+        <span class="section-header">Split Results</span>
+        <textarea id="splitresults" class="ro ta"></textarea>
+    </div>
+
+    <script src="jquery-3.4.1.min.js"></script>
+    <script src="regexworkbench.js"></script>
+</body>
+
+</html>

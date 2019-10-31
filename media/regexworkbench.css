@@ -1,0 +1,48 @@
+
+body {
+    font-family: sans-serif;
+}
+
+textarea {
+    font-family: monospace;
+}
+
+.ta {
+    width: 85%;
+}
+
+.section-header {
+    display: block;
+}
+
+.section {
+    padding-bottom: 20px;
+}
+
+.selected {
+    background-color: #c0c0ff;
+}
+
+#regex {
+    height: 16px;
+}
+
+#search {
+    height: 100px;
+}
+
+#replacement {
+    height: 100px;
+}
+
+#replaced {
+    height: 100px;
+}
+
+#results {
+    height: 150px;
+}
+
+#splitresults {
+    height: 150px;
+}
