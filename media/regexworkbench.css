@@ -23,6 +23,15 @@ textarea {
     background-color: #c0c0ff;
 }
 
+.switchpanel {
+    font-family: monospace;
+    font-weight: bold;
+}
+
+.switch {
+    border: 1px solid gray;
+}
+
 #regex {
     height: 16px;
 }

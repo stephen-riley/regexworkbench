@@ -51,16 +51,16 @@ const execute = () => {
 };
 
 const match = () => {
-    const regex = new RegExp($('#regex').val());
+    const regex = new RegExp($('#regex').val(), getSwitches());
     const search = $('#search').val();
 
     const results = regex.exec(search);
-    const resultsJson = JSON.stringify(processResults(results), null, "  ");
+    const resultsJson = results != null ? JSON.stringify(processResults(results), null, "  ") : "(no match)";
     $('#results').val(resultsJson);
 };
 
 const matchAll = () => {
-    const regex = new RegExp($('#regex').val(), "g");
+    const regex = new RegExp($('#regex').val(), "g" + getSwitches());
     const search = $('#search').val();
 
     let results = [];
@@ -69,12 +69,12 @@ const matchAll = () => {
         results.push(processResults(iteration));
     }
 
-    const resultsJson = JSON.stringify(processResults(results), null, "  ");
+    const resultsJson = results != null ? JSON.stringify(processResults(results), null, "  ") : "(no matches)";
     $('#results').val(resultsJson);
 };
 
 const split = () => {
-    const regex = new RegExp($('#regex').val(), "g");
+    const regex = new RegExp($('#regex').val(), "g" + getSwitches());
     const search = $('#search').val();
 
     const results = search.split(regex).map(s => s.replace("\n", "\\n"));
@@ -84,7 +84,7 @@ const split = () => {
 
 const replace = () => {
     match();
-    const regex = new RegExp($('#regex').val());
+    const regex = new RegExp($('#regex').val(), getSwitches());
     const search = $('#search').val();
     const replacement = $('#replacement').val();
 
@@ -93,7 +93,7 @@ const replace = () => {
 
 const replaceAll = () => {
     matchAll();
-    const regex = new RegExp($('#regex').val(), "g");
+    const regex = new RegExp($('#regex').val(), "g" + getSwitches());
     const search = $('#search').val();
     const replacement = $('#replacement').val();
 
@@ -101,6 +101,10 @@ const replaceAll = () => {
 };
 
 const processResults = (r) => {
+    if (r === null) {
+        return null;
+    }
+
     let expanded = { results: [] };
     for (let i = 0; i < r.length; i++) {
         expanded.results[i] = r[i];
@@ -111,20 +115,50 @@ const processResults = (r) => {
     return expanded;
 };
 
-let timeoutHandle;
+const getSwitches = () => {
+    const switches = $('.switch.selected').get().reduce((p, el) => p + el.id.replace("-switch", ""), "");
+    return switches;
+};
 
-const onRegexChange = (el) => {
-    if (timeoutHandle) {
-        clearTimeout(timeoutHandle);
-        timeoutHandle = undefined;
+let regexTimeoutHandle;
+
+const onRegexChange = (_) => {
+    if (regexTimeoutHandle) {
+        clearTimeout(regexTimeoutHandle);
+        regexTimeoutHandle = undefined;
     }
 
-    timeoutHandle = setTimeout(execute, 300);
+    regexTimeoutHandle = setTimeout(execute, 300);
+};
+
+let searchTimeoutHandle;
+
+const onSearchChange = (_) => {
+    if (searchTimeoutHandle) {
+        clearTimeout(searchTimeoutHandle);
+        searchTimeoutHandle = undefined;
+    }
+
+    searchTimeoutHandle = setTimeout(execute, 300);
+};
+
+const onSwitchClick = (e) => {
+    const el = $(e.target);
+
+    if (el.attr('class').split(/\s+/).includes('selected')) {
+        el.removeClass('selected');
+    } else {
+        el.addClass('selected');
+    }
+    execute();
 };
 
 $(document).ready(() => {
     $('#regex').bind('input propertychange', onRegexChange);
+    $('#search').bind('input propertychange', onSearchChange);
     $('.mode-btn').click(updateModeButtons);
+    $('.switch').click(onSwitchClick);
+
     $('#match-btn').click();
     //    $('#regex').val(`(?<file>.+?):(?<line>\\d+):(?<code>.*)`);
     $('#regex').val(`:`);
