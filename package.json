@@ -10,14 +10,16 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:extension.helloWorld"
+		"onCommand:regexworkbench.start",
+		"onWebviewPanel:regexworkbench"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.helloWorld",
-				"title": "Hello World"
+				"command": "regexworkbench.start",
+				"title": "Open regular expression workbench",
+				"category": "Regex Workbench"
 			}
 		]
 	},
