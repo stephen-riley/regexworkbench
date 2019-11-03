@@ -2,6 +2,8 @@
 	"name": "regexworkbench",
 	"displayName": "regexworkbench",
 	"description": "",
+	"publisher": "stephen-riley",
+	"repository": "https://github.com/stephen-riley/regexworkbench",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.39.0"
