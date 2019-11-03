@@ -153,13 +153,24 @@ const onSwitchClick = (e) => {
     execute();
 };
 
+const getVscodeTheme = () => {
+    const theme = $('body').attr('class').split(' ').reduce((res, c) => c.startsWith('vscode-') ? c : res, "");
+    return theme;
+};
+
+const applyVscodeThemeCss = () => {
+    const theme = getVscodeTheme();
+    $('*').addClass(theme);
+};
+
 $(document).ready(() => {
+    applyVscodeThemeCss();
+
     $('#regex').bind('input propertychange', onRegexChange);
     $('#search').bind('input propertychange', onSearchChange);
     $('.mode-btn').click(updateModeButtons);
     $('.switch').click(onSwitchClick);
 
-    $('#match-btn').click();
     //    $('#regex').val(`(?<file>.+?):(?<line>\\d+):(?<code>.*)`);
     $('#regex').val(`:`);
     $('#replacement').val(`file:$<file>, line: $2, code: "$<code>"`);
@@ -168,4 +179,6 @@ $(document).ready(() => {
 bar.pm:42:sub bar { # womba womba womba
 spam.py:234:seuss = ['green', 'eggs', 'ham']`
     );
+
+    $('#match-btn').click();
 });

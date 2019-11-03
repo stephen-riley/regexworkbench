@@ -1,10 +1,35 @@
 
 body {
     font-family: sans-serif;
+    padding-top: 20px;
 }
 
 textarea {
-    font-family: monospace;
+    font-family: var(--vscode-editor-font-family);
+    background-color: var(--vscode-editor-background);
+    color: var(--vscode-editor-foreground);
+}
+
+button {
+    border-radius: 0;
+    background-color: var(--vscode-editor-background);
+    color: var(--vscode-editor-foreground);
+}
+
+button.selected.vscode-light {
+    background-color: var(--vscode-button-background);
+    color: var(--vscode-button-foreground);
+}
+
+button.selected.vscode-dark {
+    background-color: var(--vscode-button-background);
+    color: var(--vscode-button-foreground);
+}
+
+button.selected.vscode-high-contrast {
+    background-color: var(--vscode-editor-background);
+    color: var(--vscode-editor-foreground);
+    outline: 2px solid var(--vscode-editor-foreground);
 }
 
 .ta {
