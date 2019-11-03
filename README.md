@@ -4,4 +4,12 @@ A regular expression workbench in the style of Komodo's.
 
 ## Sideloading from github
 
-See [this StackOverflow Q&A](https://stackoverflow.com/questions/50714638/install-extension-from-a-specific-repo-branch-on-github)
+Make sure you have Node.js installed, then run:
+
+`npm install -g vsce`
+
+Clone the repo and `cd` into its directory, then run:
+
+`vsce package`
+
+`code --install-extension regexworkbench-0.0.1.vsix`
