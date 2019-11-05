@@ -4,14 +4,25 @@ import * as vscode from 'vscode';
 
 import * as path from 'path';
 
+let statusBarItem: vscode.StatusBarItem;
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+	const cmdId = 'regexworkbench.start';
+
 	context.subscriptions.push(
-		vscode.commands.registerCommand('regexworkbench.start', () => {
+		vscode.commands.registerCommand(cmdId, () => {
 			RegexWorkbenchPanel.createOrShow(context.extensionPath);
 		})
 	);
+
+	statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
+	statusBarItem.command = cmdId;
+	context.subscriptions.push(statusBarItem);
+
+	statusBarItem.text = `/$(star)/`;
+	statusBarItem.show();
 
 	if (vscode.window.registerWebviewPanelSerializer) {
 		// Make sure we register a serializer in activation event
