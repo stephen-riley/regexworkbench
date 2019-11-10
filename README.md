@@ -12,4 +12,4 @@ Clone the repo and `cd` into its directory, then run:
 
 `vsce package`
 
-`code --install-extension regexworkbench-0.0.2.vsix`
+`code --install-extension regexworkbench-0.0.3.vsix`

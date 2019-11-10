@@ -6,6 +6,8 @@ const displayMap = {
     'replaceall-btn': ['mode', 'regex', 'replacement', 'search', 'replaced', 'results'],
 };
 
+const vscode = acquireVsCodeApi();
+
 const updateModeButtons = (el) => {
     $('.mode-btn').each((_, btn) => {
         if (btn.id === el.target.id) {
@@ -48,6 +50,8 @@ const execute = () => {
         $('#results').val('Invalid regular expression');
         $('#splitresults').val('Invalid regular expression');
     }
+
+    updateState();
 };
 
 const match = () => {
@@ -121,7 +125,6 @@ const getSwitches = () => {
 };
 
 let regexTimeoutHandle;
-
 const onRegexChange = (_) => {
     if (regexTimeoutHandle) {
         clearTimeout(regexTimeoutHandle);
@@ -132,7 +135,6 @@ const onRegexChange = (_) => {
 };
 
 let searchTimeoutHandle;
-
 const onSearchChange = (_) => {
     if (searchTimeoutHandle) {
         clearTimeout(searchTimeoutHandle);
@@ -140,6 +142,31 @@ const onSearchChange = (_) => {
     }
 
     searchTimeoutHandle = setTimeout(execute, 300);
+};
+
+let replacementTimeoutHandle;
+const onReplacementChange = (_) => {
+    if (replacementTimeoutHandle) {
+        clearTimeout(replacementTimeoutHandle);
+        replacementTimeoutHandle = undefined;
+    }
+
+    replacementTimeoutHandle = setTimeout(updateState, 500);
+};
+
+// TODO: split these out into separate messages
+const updateState = () => {
+    const state = {
+        regex: $('#regex').val(),
+        search: $('#search').val(),
+        replacement: $('#replacement').val(),
+        mode: $('.mode-btn.selected')[0].id.replace("-btn", "")
+    };
+
+    vscode.postMessage({
+        command: "stateChange",
+        text: JSON.stringify(state)
+    });
 };
 
 const onSwitchClick = (e) => {
@@ -163,22 +190,38 @@ const applyVscodeThemeCss = () => {
     $('*').addClass(theme);
 };
 
+const infoWindow = (msg) => {
+    vscode.postMessage({ command: 'info', text: msg });
+};
+
 $(document).ready(() => {
     applyVscodeThemeCss();
 
     $('#regex').bind('input propertychange', onRegexChange);
     $('#search').bind('input propertychange', onSearchChange);
+    $('#replacement').bind('input propertychange', onReplacementChange);
+
     $('.mode-btn').click(updateModeButtons);
     $('.switch').click(onSwitchClick);
 
-    //    $('#regex').val(`(?<file>.+?):(?<line>\\d+):(?<code>.*)`);
-    $('#regex').val(`:`);
-    $('#replacement').val(`file:$<file>, line: $2, code: "$<code>"`);
-    $('#search').val(
-        `foo.pl:25:use strict;
-bar.pm:42:sub bar { # womba womba womba
-spam.py:234:seuss = ['green', 'eggs', 'ham']`
-    );
+    window.addEventListener('message', e => {
+        debugger;
 
-    $('#match-btn').click();
+        const message = e.data;
+        infoWindow(`state: ${JSON.stringify(message.state)}`);
+
+        switch (message.command) {
+            case 'setState':
+                $('#regex').val(message.state.regex);
+                $('#search').val(message.state.search);
+                $('#replacement').val(message.state.replacement);
+
+                const buttonId = `#${message.state.mode}-btn`;
+                infoWindow(`mode: ${buttonId}`);
+                $(buttonId).click();
+                break;
+        }
+    });
+
+    vscode.postMessage({ command: "ready" });
 });

@@ -3,13 +3,28 @@
 import * as vscode from 'vscode';
 
 import * as path from 'path';
+import * as fs from 'fs';
+
+const cmdId = 'regexworkbench.start';
+const regexKey = "regexworkbench.regex";
+const searchKey = "regexworkbench.search";
+const replacementKey = "regexworkbench.replacement";
+const modeKey = "regexworkbench.mode";
+
+const defaultState: RegexWorkbenchPanelState = {
+	regex: "(there)",
+	search: "hello there!",
+	replacement: "world",
+	mode: "match"
+};
 
 let statusBarItem: vscode.StatusBarItem;
+let extensionContext: vscode.ExtensionContext;
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-	const cmdId = 'regexworkbench.start';
+	extensionContext = context;
 
 	context.subscriptions.push(
 		vscode.commands.registerCommand(cmdId, () => {
@@ -34,6 +49,12 @@ export function activate(context: vscode.ExtensionContext) {
 	}
 }
 
+interface RegexWorkbenchPanelState {
+	regex: string;
+	replacement: string;
+	search: string;
+	mode: string;
+}
 
 class RegexWorkbenchPanel {
 	/**
@@ -46,6 +67,8 @@ class RegexWorkbenchPanel {
 	private readonly _panel: vscode.WebviewPanel;
 	private readonly _extensionPath: string;
 	private _disposables: vscode.Disposable[] = [];
+
+	private _state: RegexWorkbenchPanelState = defaultState;
 
 	public static createOrShow(extensionPath: string) {
 		const column = vscode.window.activeTextEditor
@@ -83,6 +106,8 @@ class RegexWorkbenchPanel {
 		this._panel = panel;
 		this._extensionPath = extensionPath;
 
+		this._readState();
+
 		// Set the webview's initial html content
 		this._update();
 
@@ -105,7 +130,14 @@ class RegexWorkbenchPanel {
 		this._panel.webview.onDidReceiveMessage(
 			(message: any) => {
 				switch (message.command) {
-					case 'alert':
+					case 'stateChange':
+						this._state = JSON.parse(message.text);
+						this._writeState();
+						return;
+					case 'ready':
+						this._setState();
+						return;
+					case 'info':
 						vscode.window.showErrorMessage(message.text);
 						return;
 				}
@@ -118,6 +150,8 @@ class RegexWorkbenchPanel {
 	public dispose() {
 		RegexWorkbenchPanel.currentPanel = undefined;
 
+		this._writeState();
+
 		// Clean up our resources
 		this._panel.dispose();
 
@@ -127,6 +161,28 @@ class RegexWorkbenchPanel {
 				x.dispose();
 			}
 		}
+	}
+
+	private _setState() {
+		this._panel.webview.postMessage({ command: 'setState', state: this._state });
+	}
+
+	private _readState() {
+		const state = {
+			regex: extensionContext.globalState.get<string>(regexKey) || defaultState.regex,
+			search: extensionContext.globalState.get<string>(searchKey) || defaultState.search,
+			replacement: extensionContext.globalState.get<string>(replacementKey) || defaultState.replacement,
+			mode: extensionContext.globalState.get<string>(modeKey) || defaultState.mode,
+		};
+
+		this._state = state.regex !== undefined ? state : defaultState;
+	}
+
+	private _writeState() {
+		extensionContext.globalState.update(regexKey, this._state.regex);
+		extensionContext.globalState.update(searchKey, this._state.search);
+		extensionContext.globalState.update(replacementKey, this._state.replacement);
+		extensionContext.globalState.update(modeKey, this._state.mode);
 	}
 
 	private _update() {
