@@ -51,7 +51,7 @@ const execute = () => {
         $('#splitresults').val('Invalid regular expression');
     }
 
-    updateState();
+    updateStateInHost();
 };
 
 const match = () => {
@@ -151,16 +151,21 @@ const onReplacementChange = (_) => {
         replacementTimeoutHandle = undefined;
     }
 
-    replacementTimeoutHandle = setTimeout(updateState, 500);
+    replacementTimeoutHandle = setTimeout(updateStateInHost, 500);
 };
 
 // TODO: split these out into separate messages
-const updateState = () => {
+const updateStateInHost = () => {
     const state = {
         regex: $('#regex').val(),
         search: $('#search').val(),
         replacement: $('#replacement').val(),
-        mode: $('.mode-btn.selected')[0].id.replace("-btn", "")
+        mode: $('.mode-btn.selected')[0].id.replace("-btn", ""),
+        switches: {
+            i: $('#i-switch.selected').length > 0,
+            m: $('#m-switch.selected').length > 0,
+            s: $('#s-switch.selected').length > 0
+        }
     };
 
     vscode.postMessage({
@@ -194,6 +199,26 @@ const infoWindow = (msg) => {
     vscode.postMessage({ command: 'info', text: msg });
 };
 
+const setUiState = (state) => {
+    $('#regex').val(state.regex);
+    $('#search').val(state.search);
+    $('#replacement').val(state.replacement);
+
+    const buttonId = `#${state.mode}-btn`;
+    infoWindow(`mode: ${buttonId}`);
+    $(buttonId).click();
+
+    if (state.switches.i) {
+        $('#i-switch').click();
+    }
+    if (state.switches.m) {
+        $('#m-switch').click();
+    }
+    if (state.switches.s) {
+        $('#s-switch').click();
+    }
+};
+
 $(document).ready(() => {
     applyVscodeThemeCss();
 
@@ -212,13 +237,7 @@ $(document).ready(() => {
 
         switch (message.command) {
             case 'setState':
-                $('#regex').val(message.state.regex);
-                $('#search').val(message.state.search);
-                $('#replacement').val(message.state.replacement);
-
-                const buttonId = `#${message.state.mode}-btn`;
-                infoWindow(`mode: ${buttonId}`);
-                $(buttonId).click();
+                setUiState(message.state);
                 break;
         }
     });

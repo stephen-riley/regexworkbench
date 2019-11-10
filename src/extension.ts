@@ -10,12 +10,32 @@ const regexKey = "regexworkbench.regex";
 const searchKey = "regexworkbench.search";
 const replacementKey = "regexworkbench.replacement";
 const modeKey = "regexworkbench.mode";
+const iKey = "regexworkbench.i";
+const mKey = "regexworkbench.m";
+const sKey = "regexworkbench.s";
+
+interface RegexWorkbenchPanelState {
+	regex: string;
+	replacement: string;
+	search: string;
+	mode: string;
+	switches: {
+		i: boolean;
+		m: boolean;
+		s: boolean;
+	};
+}
 
 const defaultState: RegexWorkbenchPanelState = {
 	regex: "(there)",
 	search: "hello there!",
 	replacement: "world",
-	mode: "match"
+	mode: "match",
+	switches: {
+		i: false,
+		m: false,
+		s: false
+	}
 };
 
 let statusBarItem: vscode.StatusBarItem;
@@ -47,13 +67,6 @@ export function activate(context: vscode.ExtensionContext) {
 			}
 		});
 	}
-}
-
-interface RegexWorkbenchPanelState {
-	regex: string;
-	replacement: string;
-	search: string;
-	mode: string;
 }
 
 class RegexWorkbenchPanel {
@@ -173,6 +186,11 @@ class RegexWorkbenchPanel {
 			search: extensionContext.globalState.get<string>(searchKey) || defaultState.search,
 			replacement: extensionContext.globalState.get<string>(replacementKey) || defaultState.replacement,
 			mode: extensionContext.globalState.get<string>(modeKey) || defaultState.mode,
+			switches: {
+				i: extensionContext.globalState.get<boolean>(iKey) || defaultState.switches.i,
+				m: extensionContext.globalState.get<boolean>(mKey) || defaultState.switches.m,
+				s: extensionContext.globalState.get<boolean>(sKey) || defaultState.switches.s,
+			}
 		};
 
 		this._state = state.regex !== undefined ? state : defaultState;
@@ -183,6 +201,9 @@ class RegexWorkbenchPanel {
 		extensionContext.globalState.update(searchKey, this._state.search);
 		extensionContext.globalState.update(replacementKey, this._state.replacement);
 		extensionContext.globalState.update(modeKey, this._state.mode);
+		extensionContext.globalState.update(iKey, this._state.switches.i);
+		extensionContext.globalState.update(mKey, this._state.switches.m);
+		extensionContext.globalState.update(sKey, this._state.switches.s);
 	}
 
 	private _update() {

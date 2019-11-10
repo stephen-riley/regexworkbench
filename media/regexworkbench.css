@@ -46,6 +46,7 @@ button.selected.vscode-high-contrast {
 
 .selected {
     background-color: #c0c0ff;
+    color: var(--vscode-editor-background);
 }
 
 .switchpanel {
