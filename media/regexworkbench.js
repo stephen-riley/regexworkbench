@@ -1,3 +1,5 @@
+'use strict';
+
 const displayMap = {
     'match-btn': ['mode', 'regex', 'search', 'results'],
     'matchall-btn': ['mode', 'regex', 'search', 'results'],
@@ -8,7 +10,7 @@ const displayMap = {
 
 const vscode = acquireVsCodeApi();
 
-const updateModeButtons = (el) => {
+function updateModeButtons(el) {
     $('.mode-btn').each((_, btn) => {
         if (btn.id === el.target.id) {
             $(btn).addClass('selected');
@@ -34,7 +36,10 @@ const updateModeButtons = (el) => {
     execute();
 };
 
-const execute = () => {
+function execute() {
+    $('#results').empty();
+    $('#splitresults').empty();
+
     const selectedId = $('.selected')[0].id.replace("-btn", "");
 
     try {
@@ -54,30 +59,88 @@ const execute = () => {
     updateStateInHost();
 };
 
-const match = () => {
-    const regex = new RegExp($('#regex').val(), getSwitches());
+function buildResultsTable(results, parent) {
+    const tr = html => `<tr>${html}</tr>`;
+    const th = (arry, attrs) => arry.reduce((s, html) => s += `<th ${attrs || ''}>${html}</th>`, '');
+    const td = (arry, attrs) => arry.reduce((s, html) => s += `<td ${attrs || ''}>${html}</td>`, '');
+
+    let table = '<table class="ta restable">';
+    table += tr(td(['Group', 'Span', 'Value'], 'class="bold"'));
+
+    let matchIndex = 0;
+    results.forEach(e => {
+        table += tr(th([`Match ${matchIndex}`, `${e.start}-${e.end}`, e.text]));
+
+        if (e.groups.length > 0) {
+            let groupIndex = 1;
+            e.groups.forEach(g => {
+                const title = 'name' in g
+                    ? `Group ${groupIndex} (${g.name})`
+                    : `Group ${groupIndex}`;
+
+                table += tr(td([title, `${g.start}-${g.end}`, g.text]));
+                groupIndex++;
+            });
+        }
+        matchIndex++;
+    });
+
+    table += '</table>';
+
+    $(parent).empty();
+    $(parent).html($(table));
+    wireThClick();
+}
+
+function match() {
+    const regex = new RegExp($('#regex').val(), "g" + getSwitches());
     const search = $('#search').val();
 
-    const results = regex.exec(search);
-    const resultsJson = results != null ? JSON.stringify(processResults(results), null, "  ") : "(no match)";
-    $('#results').val(resultsJson);
+    const execResults = regex.exec(search);
+    if (execResults == null) {
+        return;
+    }
+
+    const substring = search.substring(execResults.index, regex.lastIndex);
+    const match = { text: substring, start: execResults.index, end: regex.lastIndex, groups: [] };
+    execResults.shift();
+    execResults.forEach(m => {
+        match.groups.push({
+            start: 0,
+            end: 0,
+            text: m
+        });
+    });
+
+    const results = [match];
+    debugger;
+    buildResultsTable(results, $('#results'));
 };
 
-const matchAll = () => {
+function matchAll() {
     const regex = new RegExp($('#regex').val(), "g" + getSwitches());
     const search = $('#search').val();
 
     let results = [];
     let iteration;
     while ((iteration = regex.exec(search)) != null) {
-        results.push(processResults(iteration));
+        const substring = search.substring(iteration.index, regex.lastIndex);
+        const match = { text: substring, start: iteration.index, end: regex.lastIndex, groups: [] };
+        iteration.shift();
+        iteration.forEach(m => {
+            match.groups.push({
+                start: 0,
+                end: 0,
+                text: m
+            });
+        });
+        results.push(match);
     }
 
-    const resultsJson = results != null ? JSON.stringify(processResults(results), null, "  ") : "(no matches)";
-    $('#results').val(resultsJson);
+    buildResultsTable(results, $('#results'));
 };
 
-const split = () => {
+function split() {
     const regex = new RegExp($('#regex').val(), "g" + getSwitches());
     const search = $('#search').val();
 
@@ -86,7 +149,7 @@ const split = () => {
     $('#splitresults').val(resultsString);
 };
 
-const replace = () => {
+function replace() {
     match();
     const regex = new RegExp($('#regex').val(), getSwitches());
     const search = $('#search').val();
@@ -95,7 +158,7 @@ const replace = () => {
     $('#replaced').val(search.replace(regex, replacement));
 };
 
-const replaceAll = () => {
+function replaceAll() {
     matchAll();
     const regex = new RegExp($('#regex').val(), "g" + getSwitches());
     const search = $('#search').val();
@@ -104,7 +167,7 @@ const replaceAll = () => {
     $('#replaced').val(search.replace(regex, replacement));
 };
 
-const processResults = (r) => {
+function processResults(r) {
     if (r === null) {
         return null;
     }
@@ -119,13 +182,13 @@ const processResults = (r) => {
     return expanded;
 };
 
-const getSwitches = () => {
+function getSwitches() {
     const switches = $('.switch.selected').get().reduce((p, el) => p + el.id.replace("-switch", ""), "");
     return switches;
 };
 
 let regexTimeoutHandle;
-const onRegexChange = (_) => {
+function onRegexChange(_) {
     if (regexTimeoutHandle) {
         clearTimeout(regexTimeoutHandle);
         regexTimeoutHandle = undefined;
@@ -135,7 +198,7 @@ const onRegexChange = (_) => {
 };
 
 let searchTimeoutHandle;
-const onSearchChange = (_) => {
+function onSearchChange(_) {
     if (searchTimeoutHandle) {
         clearTimeout(searchTimeoutHandle);
         searchTimeoutHandle = undefined;
@@ -145,17 +208,16 @@ const onSearchChange = (_) => {
 };
 
 let replacementTimeoutHandle;
-const onReplacementChange = (_) => {
+function onReplacementChange(_) {
     if (replacementTimeoutHandle) {
         clearTimeout(replacementTimeoutHandle);
         replacementTimeoutHandle = undefined;
     }
 
-    replacementTimeoutHandle = setTimeout(updateStateInHost, 500);
+    replacementTimeoutHandle = setTimeout(execute, 500);
 };
 
-// TODO: split these out into separate messages
-const updateStateInHost = () => {
+function updateStateInHost() {
     const state = {
         regex: $('#regex').val(),
         search: $('#search').val(),
@@ -174,7 +236,7 @@ const updateStateInHost = () => {
     });
 };
 
-const onSwitchClick = (e) => {
+function onSwitchClick(e) {
     const el = $(e.target);
 
     if (el.attr('class').split(/\s+/).includes('selected')) {
@@ -185,27 +247,26 @@ const onSwitchClick = (e) => {
     execute();
 };
 
-const getVscodeTheme = () => {
+function getVscodeTheme() {
     const theme = $('body').attr('class').split(' ').reduce((res, c) => c.startsWith('vscode-') ? c : res, "");
     return theme;
 };
 
-const applyVscodeThemeCss = () => {
+function applyVscodeThemeCss() {
     const theme = getVscodeTheme();
     $('*').addClass(theme);
 };
 
-const infoWindow = (msg) => {
+function infoWindow(msg) {
     vscode.postMessage({ command: 'info', text: msg });
 };
 
-const setUiState = (state) => {
+function setUiState(state) {
     $('#regex').val(state.regex);
     $('#search').val(state.search);
     $('#replacement').val(state.replacement);
 
     const buttonId = `#${state.mode}-btn`;
-    infoWindow(`mode: ${buttonId}`);
     $(buttonId).click();
 
     if (state.switches.i) {
@@ -219,6 +280,30 @@ const setUiState = (state) => {
     }
 };
 
+function wireThClick() {
+    $('th').unbind();
+
+    $('th').click(e => {
+        const el = $(e.target);
+        let curNode = el.parent().next();
+
+        while (true) {
+            const firstChild = curNode.children().first();
+
+            const childTag = firstChild.prop('tagName');
+            if (childTag === undefined) {
+                break;
+            }
+            if (childTag.toLowerCase() === 'th') {
+                break;
+            }
+
+            curNode.toggle();
+            curNode = curNode.next();
+        }
+    });
+}
+
 $(document).ready(() => {
     applyVscodeThemeCss();
 
@@ -230,11 +315,7 @@ $(document).ready(() => {
     $('.switch').click(onSwitchClick);
 
     window.addEventListener('message', e => {
-        debugger;
-
         const message = e.data;
-        infoWindow(`state: ${JSON.stringify(message.state)}`);
-
         switch (message.command) {
             case 'setState':
                 setUiState(message.state);

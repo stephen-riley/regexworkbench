@@ -8,6 +8,7 @@ textarea {
     font-family: var(--vscode-editor-font-family);
     background-color: var(--vscode-editor-background);
     color: var(--vscode-editor-foreground);
+    border: 1px solid var(--vscode-button-foreground);
 }
 
 button {
@@ -80,4 +81,25 @@ button.selected.vscode-high-contrast {
 
 #splitresults {
     height: 150px;
+}
+
+.restable {
+    font-family: var(--vscode-editor-font-family);
+    outline: 1px solid var(--vscode-checkbox-foreground);
+}
+
+.restable td:first-child {
+    padding-left: 20px;
+}
+
+.restable td.bold {
+    font-weight: bold;
+    padding-left: 0px;
+    text-decoration: underline;
+}
+
+.restable th {
+    font-weight: normal;
+    color: gray;
+    text-align: left;
 }

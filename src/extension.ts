@@ -272,7 +272,7 @@ class RegexWorkbenchPanel {
 
 				<div id="results-section" class="section">
 					<span class="section-header">Replace Results</span>
-					<textarea id="results" class="ro ta"></textarea>
+					<div id="results"></div>
 				</div>
 
 				<div id="splitresults-section" class="section">
