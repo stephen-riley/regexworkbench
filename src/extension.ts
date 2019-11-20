@@ -1,9 +1,6 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import * as vscode from 'vscode';
 
+import * as vscode from 'vscode';
 import * as path from 'path';
-import * as fs from 'fs';
 
 const cmdId = 'regexworkbench.start';
 const regexKey = "regexworkbench.regex";
@@ -88,22 +85,17 @@ class RegexWorkbenchPanel {
 			? vscode.window.activeTextEditor.viewColumn
 			: undefined;
 
-		// If we already have a panel, show it.
 		if (RegexWorkbenchPanel.currentPanel) {
 			RegexWorkbenchPanel.currentPanel._panel.reveal(column);
 			return;
 		}
 
-		// Otherwise, create a new panel.
 		const panel = vscode.window.createWebviewPanel(
 			RegexWorkbenchPanel.viewType,
 			'Regex Workbench',
 			column || vscode.ViewColumn.One,
 			{
-				// Enable javascript in the webview
 				enableScripts: true,
-
-				// And restrict the webview to only loading content from our extension's `media` directory.
 				localResourceRoots: [vscode.Uri.file(path.join(extensionPath, 'media'))]
 			}
 		);
@@ -120,15 +112,10 @@ class RegexWorkbenchPanel {
 		this._extensionPath = extensionPath;
 
 		this._readState();
-
-		// Set the webview's initial html content
 		this._update();
 
-		// Listen for when the panel is disposed
-		// This happens when the user closes the panel or when the panel is closed programatically
 		this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
 
-		// Update the content based on view changes
 		this._panel.onDidChangeViewState(
 			(_: any) => {
 				if (this._panel.visible) {
@@ -139,7 +126,6 @@ class RegexWorkbenchPanel {
 			this._disposables
 		);
 
-		// Handle messages from the webview
 		this._panel.webview.onDidReceiveMessage(
 			(message: any) => {
 				switch (message.command) {
@@ -165,7 +151,6 @@ class RegexWorkbenchPanel {
 
 		this._writeState();
 
-		// Clean up our resources
 		this._panel.dispose();
 
 		while (this._disposables.length) {
