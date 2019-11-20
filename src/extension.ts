@@ -212,10 +212,21 @@ class RegexWorkbenchPanel {
 		this._panel.webview.html = this._getHtmlForWebview();
 	}
 
+	private _getNonce() {
+		let text = '';
+		const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+		for (let i = 0; i < 32; i++) {
+			text += possible.charAt(Math.floor(Math.random() * possible.length));
+		}
+		return text;
+	}
+
 	private _getHtmlForWebview() {
 		const webview = this._panel.webview;
 
-		const [regexworkbenchjsUri, jqueryjsUri, regexworkbenchcssUri] = ["regexworkbench.js", "jquery-3.4.1.min.js", "regexworkbench.css"].map(script => {
+		const nonce = this._getNonce();
+
+		const [regexworkbenchjsUri, jqueryjsUri, regexworkbenchcssUri, multiRegExUri] = ["regexworkbench.js", "jquery-3.4.1.min.js", "regexworkbench.css", "multiRegExp2.js"].map(script => {
 			const pathOnDisk = vscode.Uri.file(path.join(this._extensionPath, 'media', script));
 			const uri = webview.asWebviewUri(pathOnDisk);
 			return uri;
@@ -229,7 +240,7 @@ class RegexWorkbenchPanel {
 				<meta charset="UTF-8">
 				<meta
 					http-equiv="Content-Security-Policy"
-					content="default-src 'none'; script-src ${webview.cspSource}; style-src ${webview.cspSource};"
+					content="default-src 'none'; script-src 'nonce-${nonce}'; style-src ${webview.cspSource};"
 				/>
 				<link rel="stylesheet" type="text/css" href="${regexworkbenchcssUri}">
 				<title>Regular Expression Workbench</title>
@@ -280,8 +291,9 @@ class RegexWorkbenchPanel {
 					<textarea id="splitresults" class="ro ta"></textarea>
 				</div>
 
-				<script src="${jqueryjsUri}"></script>
-				<script src="${regexworkbenchjsUri}"></script>
+				<script nonce="${nonce}" src="${jqueryjsUri}"></script>
+				<script nonce="${nonce}" src="${multiRegExUri}"></script>
+				<script nonce="${nonce}" src="${regexworkbenchjsUri}"></script>
 			</body>
 
 			</html>

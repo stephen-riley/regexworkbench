@@ -69,7 +69,7 @@ function buildResultsTable(results, parent) {
 
     let matchIndex = 0;
     results.forEach(e => {
-        table += tr(th([`Match ${matchIndex}`, `${e.start}-${e.end}`, e.text]));
+        table += tr(th([`Match ${matchIndex}`, `${e.start}-${e.end}`, e.match]));
 
         if (e.groups.length > 0) {
             let groupIndex = 1;
@@ -78,7 +78,7 @@ function buildResultsTable(results, parent) {
                     ? `Group ${groupIndex} (${g.name})`
                     : `Group ${groupIndex}`;
 
-                table += tr(td([title, `${g.start}-${g.end}`, g.text]));
+                table += tr(td([title, `${g.start}-${g.end}`, g.match]));
                 groupIndex++;
             });
         }
@@ -93,47 +93,30 @@ function buildResultsTable(results, parent) {
 }
 
 function match() {
-    const regex = new RegExp($('#regex').val(), "g" + getSwitches());
+    const regex = new MultiRegExp2(new RegExp($('#regex').val(), "g" + getSwitches()));
     const search = $('#search').val();
 
-    const execResults = regex.exec(search);
+    const execResults = regex.execForAllGroups(search, true);
     if (execResults == null) {
         return;
     }
 
-    const substring = search.substring(execResults.index, regex.lastIndex);
-    const match = { text: substring, start: execResults.index, end: regex.lastIndex, groups: [] };
-    execResults.shift();
-    execResults.forEach(m => {
-        match.groups.push({
-            start: 0,
-            end: 0,
-            text: m
-        });
-    });
+    const match = execResults.shift();
+    match.groups = execResults;
 
-    const results = [match];
-    debugger;
-    buildResultsTable(results, $('#results'));
+    buildResultsTable([match], $('#results'));
 };
 
 function matchAll() {
-    const regex = new RegExp($('#regex').val(), "g" + getSwitches());
+    const regex = new MultiRegExp2(new RegExp($('#regex').val(), "g" + getSwitches()));
     const search = $('#search').val();
 
     let results = [];
     let iteration;
-    while ((iteration = regex.exec(search)) != null) {
-        const substring = search.substring(iteration.index, regex.lastIndex);
-        const match = { text: substring, start: iteration.index, end: regex.lastIndex, groups: [] };
-        iteration.shift();
-        iteration.forEach(m => {
-            match.groups.push({
-                start: 0,
-                end: 0,
-                text: m
-            });
-        });
+    debugger;
+    while ((iteration = regex.execForAllGroups(search, true)) != null) {
+        const match = iteration.shift();
+        match.groups = iteration;
         results.push(match);
     }
 
