@@ -33,6 +33,11 @@ button.selected.vscode-high-contrast {
     outline: 2px solid var(--vscode-editor-foreground);
 }
 
+.nl {
+    display: block;
+    padding-bottom: 3px;
+}
+
 .ta {
     width: 85%;
 }
@@ -75,31 +80,37 @@ button.selected.vscode-high-contrast {
     height: 100px;
 }
 
-#results {
-    height: 150px;
-}
-
 #splitresults {
     height: 150px;
 }
 
-.restable {
+#results {
+    height: 150px;
     font-family: var(--vscode-editor-font-family);
     outline: 1px solid var(--vscode-checkbox-foreground);
+    overflow-y: scroll;
 }
 
-.restable td:first-child {
+#results td:first-child {
     padding-left: 20px;
 }
 
-.restable td.bold {
+#results td.bold {
     font-weight: bold;
     padding-left: 0px;
     text-decoration: underline;
 }
 
-.restable th {
+#results th {
     font-weight: normal;
     color: gray;
     text-align: left;
+}
+
+#splitresults {
+    height: 150px;
+    font-family: var(--vscode-editor-font-family);
+    outline: 1px solid var(--vscode-checkbox-foreground);
+    overflow: scroll;
+    white-space: pre;
 }

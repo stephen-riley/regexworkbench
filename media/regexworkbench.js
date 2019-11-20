@@ -64,7 +64,7 @@ function buildResultsTable(results, parent) {
     const th = (arry, attrs) => arry.reduce((s, html) => s += `<th ${attrs || ''}>${html}</th>`, '');
     const td = (arry, attrs) => arry.reduce((s, html) => s += `<td ${attrs || ''}>${html}</td>`, '');
 
-    let table = '<table class="ta restable">';
+    let table = '<table class="ta">';
     table += tr(td(['Group', 'Span', 'Value'], 'class="bold"'));
 
     let matchIndex = 0;
@@ -113,7 +113,7 @@ function matchAll() {
 
     let results = [];
     let iteration;
-    debugger;
+
     while ((iteration = regex.execForAllGroups(search, true)) != null) {
         const match = iteration.shift();
         match.groups = iteration;
@@ -127,9 +127,10 @@ function split() {
     const regex = new RegExp($('#regex').val(), "g" + getSwitches());
     const search = $('#search').val();
 
-    const results = search.split(regex).map(s => s.replace("\n", "\\n"));
-    const resultsString = results.join("\n");
-    $('#splitresults').val(resultsString);
+    const items = search.split(regex).map(s => s.replace(/[\r\n]/g, "&nbsp;"));
+    const results = items.map(item => `<span class="nl">${item}</span>`).join('');
+
+    $('#splitresults').empty().html(results);
 };
 
 function replace() {
@@ -296,6 +297,9 @@ $(document).ready(() => {
 
     $('.mode-btn').click(updateModeButtons);
     $('.switch').click(onSwitchClick);
+
+    $('#results').css('font-size', $('#regex').css('font-size'));
+    $('#splitresults').css('font-size', $('#regex').css('font-size'));
 
     window.addEventListener('message', e => {
         const message = e.data;

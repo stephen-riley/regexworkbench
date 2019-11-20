@@ -268,12 +268,12 @@ class RegexWorkbenchPanel {
 
 				<div id="results-section" class="section">
 					<span class="section-header">Replace Results</span>
-					<div id="results"></div>
+					<div id="results" class="ta"></div>
 				</div>
 
 				<div id="splitresults-section" class="section">
 					<span class="section-header">Split Results</span>
-					<textarea id="splitresults" class="ro ta"></textarea>
+					<div id="splitresults" class="ta"></div>
 				</div>
 
 				<script nonce="${nonce}" src="${jqueryjsUri}"></script>
