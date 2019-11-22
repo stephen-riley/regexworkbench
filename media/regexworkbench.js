@@ -1,5 +1,7 @@
 'use strict';
 
+import MultiRegExp2 from './multiRegExp2.js';
+
 const displayMap = {
     'match-btn': ['mode', 'regex', 'search', 'results'],
     'matchall-btn': ['mode', 'regex', 'search', 'results'],

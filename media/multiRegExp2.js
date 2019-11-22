@@ -155,7 +155,7 @@ function fillGroups(regex) {
     return { regexp: new RegExp(modifiedRegex, modifier), groupIndexMapper, previousGroupsForGroup };
 }
 
-class MultiRegExp2 {
+export default class MultiRegExp2 {
     constructor(baseRegExp) {
         const { regexp, groupIndexMapper, previousGroupsForGroup } = fillGroups(baseRegExp);
         this.regexp = regexp;

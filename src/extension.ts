@@ -277,8 +277,7 @@ class RegexWorkbenchPanel {
 				</div>
 
 				<script nonce="${nonce}" src="${jqueryjsUri}"></script>
-				<script nonce="${nonce}" src="${multiRegExUri}"></script>
-				<script nonce="${nonce}" src="${regexworkbenchjsUri}"></script>
+				<script nonce="${nonce}" type="module" src="${regexworkbenchjsUri}"></script>
 			</body>
 
 			</html>
