@@ -66,18 +66,40 @@ button.selected.vscode-high-contrast {
 
 #regex {
     height: 16px;
+    padding: 4px;
 }
 
 #search {
+    padding: 4px;
     height: 100px;
+    overflow: auto;
+    font-family: var(--vscode-editor-font-family);
+    font-size: 11px;
+    background-color: var(--vscode-editor-background);
+    color: var(--vscode-editor-foreground);
+    border: 1px solid var(--vscode-button-foreground);
 }
 
 #replacement {
+    padding: 4px;
     height: 100px;
+    overflow: auto;
+    font-family: var(--vscode-editor-font-family);
+    font-size: 11px;
+    background-color: var(--vscode-editor-background);
+    color: var(--vscode-editor-foreground);
+    border: 1px solid var(--vscode-button-foreground);
 }
 
 #replaced {
+    padding: 4px;
     height: 100px;
+    overflow: auto;
+    font-family: var(--vscode-editor-font-family);
+    font-size: 11px;
+    background-color: var(--vscode-editor-background);
+    color: var(--vscode-editor-foreground);
+    border: 1px solid var(--vscode-button-foreground);
 }
 
 #splitresults {
@@ -85,6 +107,7 @@ button.selected.vscode-high-contrast {
 }
 
 #results {
+    padding: 4px;
     height: 150px;
     font-family: var(--vscode-editor-font-family);
     outline: 1px solid var(--vscode-checkbox-foreground);

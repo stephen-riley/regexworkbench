@@ -253,17 +253,17 @@ class RegexWorkbenchPanel {
 
 				<div id="replacement-section" class="section">
 					<span class="section-header">Replacement</span>
-					<textarea id="replacement" class="ta"></textarea>
+					<div id="replacement" class="ta" contenteditable="true"></div>
 				</div>
 
 				<div id="search-section" class="section">
 					<span class="section-header">Search Text</span>
-					<textarea id="search" class="ta"></textarea>
+					<div id="search" class="ta" contenteditable="true"></div>
 				</div>
 
 				<div id="replaced-section" class="section">
 					<span class="section-header">Replaced Text</span>
-					<textarea id="replaced" class="ro ta"></textarea>
+					<div id="replaced" class="ta"></div>
 				</div>
 
 				<div id="results-section" class="section">
