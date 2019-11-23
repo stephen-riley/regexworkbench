@@ -91,6 +91,11 @@ button.selected.vscode-high-contrast {
     overflow-y: scroll;
 }
 
+#results table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
 #results td:first-child {
     padding-left: 20px;
 }
@@ -105,6 +110,7 @@ button.selected.vscode-high-contrast {
     font-weight: normal;
     color: gray;
     text-align: left;
+    padding-top: 5px;
 }
 
 #splitresults {
