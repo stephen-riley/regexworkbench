@@ -148,6 +148,7 @@ button.selected.vscode-high-contrast {
     float: right;
     margin-right: -10px;
     cursor: default;
+    padding-bottom: 3px;
 }
 
 .folder:active {

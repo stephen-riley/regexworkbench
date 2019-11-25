@@ -230,7 +230,7 @@ class RegexWorkbenchPanel {
 
 		const nonce = this._getNonce();
 
-		const [regexworkbenchjsUri, jqueryjsUri, regexworkbenchcssUri, multiRegExUri] = ["regexworkbench.js", "jquery-3.4.1.min.js", "regexworkbench.css", "multiRegExp2.js"].map(script => {
+		const [regexworkbenchjsUri, jqueryjsUri, regexworkbenchcssUri, iconsUri] = ["regexworkbench.js", "jquery-3.4.1.min.js", "regexworkbench.css", "iconicss.min.css"].map(script => {
 			const pathOnDisk = vscode.Uri.file(path.join(this._extensionPath, 'media', script));
 			const uri = webview.asWebviewUri(pathOnDisk);
 			return uri;
@@ -247,6 +247,7 @@ class RegexWorkbenchPanel {
 					content="default-src 'none'; script-src 'nonce-${nonce}'; style-src ${webview.cspSource};"
 				/>
 				<link rel="stylesheet" type="text/css" href="${regexworkbenchcssUri}">
+				<link rel="stylesheet" type="text/css" href="${iconsUri}">
 				<title>Regular Expression Workbench</title>
 			</head>
 
@@ -278,7 +279,7 @@ class RegexWorkbenchPanel {
 				<div id="search-section" class="section">
 					<span class="section-header ta">
 						Search Text
-						<span class="folder">📂</span>
+						<span class="folder"><i class="icss-folder-open"></i></span>
 					</span>
 					<div id="search" class="ta" contenteditable="true"></div>
 				</div>
