@@ -2,6 +2,8 @@
 
 A regular expression workbench in the style of Komodo's.
 
+See [`TODO.md`](https://github.com/stephen-riley/regexworkbench/blob/master/TODO.md) for latest status.
+
 ## Sideloading from github
 
 Make sure you have Node.js installed, then run:
