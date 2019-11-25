@@ -309,6 +309,8 @@ $(document).ready(() => {
     $('.mode-btn').click(updateModeButtons);
     $('.switch').click(onSwitchClick);
 
+    $('.folder').click(() => { vscode.postMessage({ command: "loadsearchtext" }); });
+
     $('#results').css('font-size', $('#regex').css('font-size'));
     $('#splitresults').css('font-size', $('#regex').css('font-size'));
 

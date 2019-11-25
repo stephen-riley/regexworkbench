@@ -1,6 +1,7 @@
 
 import * as vscode from 'vscode';
 import * as path from 'path';
+import * as fs from 'fs';
 
 const cmdId = 'regexworkbench.start';
 const regexKey = "regexworkbench.regex";
@@ -139,6 +140,8 @@ class RegexWorkbenchPanel {
 					case 'info':
 						vscode.window.showErrorMessage(message.text);
 						return;
+					case 'loadsearchtext':
+						this._loadSearchTextFile();
 				}
 			},
 			null,
@@ -159,6 +162,22 @@ class RegexWorkbenchPanel {
 				x.dispose();
 			}
 		}
+	}
+
+	private _loadSearchTextFile() {
+		const options: vscode.OpenDialogOptions = {
+			canSelectMany: false,
+			openLabel: 'Open',
+			filters: { 'All files': ['*'] }
+		};
+
+		vscode.window.showOpenDialog(options).then(fileUri => {
+			if (fileUri && fileUri[0]) {
+				const text = fs.readFileSync(fileUri[0].fsPath, { encoding: 'utf-8' });
+				this._state.search = text;
+				this._setState();
+			}
+		});
 	}
 
 	private _setState() {
@@ -257,7 +276,10 @@ class RegexWorkbenchPanel {
 				</div>
 
 				<div id="search-section" class="section">
-					<span class="section-header">Search Text</span>
+					<span class="section-header ta">
+						Search Text
+						<span class="folder">📂</span>
+					</span>
 					<div id="search" class="ta" contenteditable="true"></div>
 				</div>
 

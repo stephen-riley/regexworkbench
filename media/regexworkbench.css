@@ -143,3 +143,13 @@ button.selected.vscode-high-contrast {
     overflow: scroll;
     white-space: pre;
 }
+
+.folder {
+    float: right;
+    margin-right: -10px;
+    cursor: default;
+}
+
+.folder:active {
+    background-color: var(--vscode-button-background);
+}
