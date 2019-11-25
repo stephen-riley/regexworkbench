@@ -6,7 +6,7 @@
 
 ## For 1.0
 
-- [ ] Fix leading tabs and spaces when loading a file into search text
+- [x] Fix leading tabs and spaces when loading a file into search text
 - [ ] Add tooltips to everything
 - [ ] Support extended regexes (nice to have)
 - [ ] Add drop-down of regex syntax patterns
