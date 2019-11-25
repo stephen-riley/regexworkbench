@@ -230,11 +230,13 @@ class RegexWorkbenchPanel {
 
 		const nonce = this._getNonce();
 
-		const [regexworkbenchjsUri, jqueryjsUri, regexworkbenchcssUri, iconsUri] = ["regexworkbench.js", "jquery-3.4.1.min.js", "regexworkbench.css", "iconicss.min.css"].map(script => {
-			const pathOnDisk = vscode.Uri.file(path.join(this._extensionPath, 'media', script));
-			const uri = webview.asWebviewUri(pathOnDisk);
-			return uri;
-		});
+		const [regexworkbenchBaseUri, jqueryjsUri, iconsUri] =
+			["regexworkbench", "jquery-3.4.1.min.js", "iconicss.min.css"]
+				.map(script => {
+					const pathOnDisk = vscode.Uri.file(path.join(this._extensionPath, 'media', script));
+					const uri = webview.asWebviewUri(pathOnDisk);
+					return uri;
+				});
 
 		const doc = `
 			<!DOCTYPE html>
@@ -246,7 +248,7 @@ class RegexWorkbenchPanel {
 					http-equiv="Content-Security-Policy"
 					content="default-src 'none'; script-src 'nonce-${nonce}'; style-src ${webview.cspSource};"
 				/>
-				<link rel="stylesheet" type="text/css" href="${regexworkbenchcssUri}">
+				<link rel="stylesheet" type="text/css" href="${regexworkbenchBaseUri}.css">
 				<link rel="stylesheet" type="text/css" href="${iconsUri}">
 				<title>Regular Expression Workbench</title>
 			</head>
@@ -281,12 +283,12 @@ class RegexWorkbenchPanel {
 						Search Text
 						<span class="folder"><i class="icss-folder-open"></i></span>
 					</span>
-					<div id="search" class="ta" contenteditable="true"></div>
+					<div id="search" class="ta lined" contenteditable="true"></div>
 				</div>
 
 				<div id="replaced-section" class="section">
 					<span class="section-header">Replaced Text</span>
-					<div id="replaced" class="ta"></div>
+					<div id="replaced" class="ta lined"></div>
 				</div>
 
 				<div id="results-section" class="section">
@@ -296,11 +298,11 @@ class RegexWorkbenchPanel {
 
 				<div id="splitresults-section" class="section">
 					<span class="section-header">Split Results</span>
-					<div id="splitresults" class="ta"></div>
+					<div id="splitresults" class="ta lined"></div>
 				</div>
 
 				<script nonce="${nonce}" src="${jqueryjsUri}"></script>
-				<script nonce="${nonce}" type="module" src="${regexworkbenchjsUri}"></script>
+				<script nonce="${nonce}" type="module" src="${regexworkbenchBaseUri}.js"></script>
 			</body>
 
 			</html>
