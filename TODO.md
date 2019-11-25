@@ -16,3 +16,4 @@
 - [ ] Add drop-down of regex syntax patterns
 - [ ] Highlight matched text in search text
 - [ ] Highlight matched text in replaced text
+- [ ] Add a menu of examples
