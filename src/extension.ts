@@ -283,12 +283,12 @@ class RegexWorkbenchPanel {
 						Search Text
 						<span class="folder"><i class="icss-folder-open"></i></span>
 					</span>
-					<div id="search" class="ta lined" contenteditable="true"></div>
+					<div id="search" class="ta numbered" contenteditable="true"></div>
 				</div>
 
 				<div id="replaced-section" class="section">
 					<span class="section-header">Replaced Text</span>
-					<div id="replaced" class="ta lined"></div>
+					<div id="replaced" class="ta numbered"></div>
 				</div>
 
 				<div id="results-section" class="section">
@@ -298,7 +298,7 @@ class RegexWorkbenchPanel {
 
 				<div id="splitresults-section" class="section">
 					<span class="section-header">Split Results</span>
-					<div id="splitresults" class="ta lined"></div>
+					<div id="splitresults" class="ta numbered"></div>
 				</div>
 
 				<script nonce="${nonce}" src="${jqueryjsUri}"></script>
