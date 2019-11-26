@@ -1,6 +1,7 @@
 'use strict';
 
 import MultiRegExp2 from './multiRegExp2.js';
+import Tooltips from './strings.js';
 
 const displayMap = {
     'match-btn': ['mode', 'regex', 'search', 'results'],
@@ -299,6 +300,24 @@ jQuery.fn.extend({
     }
 });
 
+function setTooltips() {
+    const browserLang = navigator.language.substring(0, 2);
+    const lang = browserLang in Tooltips
+        ? browserLang
+        : 'en';
+
+    infoWindow(`Language is ${lang}`);
+
+    const strings = Tooltips[lang];
+
+    for (const el in strings) {
+        if (strings[el] !== null) {
+            $(el).prop('title', strings[el]);
+            infoWindow(`set ${el} tooltip to "${strings[el]}"`);
+        }
+    }
+}
+
 $(document).ready(() => {
     applyVscodeThemeCss();
 
@@ -313,6 +332,8 @@ $(document).ready(() => {
 
     $('#results').css('font-size', $('#regex').css('font-size'));
     $('#splitresults').css('font-size', $('#regex').css('font-size'));
+
+    setTooltips();
 
     window.addEventListener('message', e => {
         const message = e.data;
