@@ -90,6 +90,7 @@ button.selected.vscode-high-contrast {
     background-color: var(--vscode-editor-background);
     color: var(--vscode-editor-foreground);
     border: 1px solid var(--vscode-button-foreground);
+    white-space: pre;
 }
 
 #replaced {
@@ -101,6 +102,7 @@ button.selected.vscode-high-contrast {
     background-color: var(--vscode-editor-background);
     color: var(--vscode-editor-foreground);
     border: 1px solid var(--vscode-button-foreground);
+    white-space: pre;
 }
 
 #splitresults {
