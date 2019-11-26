@@ -306,14 +306,11 @@ function setTooltips() {
         ? browserLang
         : 'en';
 
-    infoWindow(`Language is ${lang}`);
-
     const strings = Tooltips[lang];
 
     for (const el in strings) {
         if (strings[el] !== null) {
             $(el).prop('title', strings[el]);
-            infoWindow(`set ${el} tooltip to "${strings[el]}"`);
         }
     }
 }
