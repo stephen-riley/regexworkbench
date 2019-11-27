@@ -8,7 +8,7 @@
 
 - [x] Fix leading tabs and spaces when loading a file into search text
 - [x] Add tooltips to everything
-- [ ] Put line numbers on text boxes
+- [x] Put line numbers on text boxes
 
 ## For 1.0
 
