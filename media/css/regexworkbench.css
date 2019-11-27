@@ -8,7 +8,10 @@ textarea {
     font-family: var(--vscode-editor-font-family);
     background-color: var(--vscode-editor-background);
     color: var(--vscode-editor-foreground);
-    border: 1px solid var(--vscode-button-foreground);
+}
+
+textarea::-webkit-scrollbar {
+    display: none;
 }
 
 button {
@@ -39,7 +42,7 @@ button.selected.vscode-high-contrast {
 }
 
 .ta {
-    width: 85%;
+    width: 100%;
 }
 
 .section-header {
@@ -58,15 +61,22 @@ button.selected.vscode-high-contrast {
 .switchpanel {
     font-family: monospace;
     font-weight: bold;
+    float: right;
 }
 
 .switch {
     border: 1px solid gray;
 }
 
+.regex-panel table {
+    width: 100%;
+    border: none;
+}
+
 #regex {
     height: 16px;
     padding: 4px;
+    white-space: pre;
 }
 
 #search {
@@ -77,7 +87,6 @@ button.selected.vscode-high-contrast {
     font-size: 11px;
     background-color: var(--vscode-editor-background);
     color: var(--vscode-editor-foreground);
-    border: 1px solid var(--vscode-button-foreground);
     white-space: pre;
 }
 
@@ -89,7 +98,6 @@ button.selected.vscode-high-contrast {
     font-size: 11px;
     background-color: var(--vscode-editor-background);
     color: var(--vscode-editor-foreground);
-    border: 1px solid var(--vscode-button-foreground);
     white-space: pre;
 }
 
@@ -101,7 +109,6 @@ button.selected.vscode-high-contrast {
     font-size: 11px;
     background-color: var(--vscode-editor-background);
     color: var(--vscode-editor-foreground);
-    border: 1px solid var(--vscode-button-foreground);
     white-space: pre;
 }
 
@@ -115,6 +122,10 @@ button.selected.vscode-high-contrast {
     font-family: var(--vscode-editor-font-family);
     outline: 1px solid var(--vscode-checkbox-foreground);
     overflow-y: scroll;
+}
+
+#results::-webkit-scrollbar {
+    display: none;
 }
 
 #results table {
@@ -149,11 +160,15 @@ button.selected.vscode-high-contrast {
 
 .folder {
     float: right;
-    margin-right: -10px;
     cursor: default;
     padding-bottom: 3px;
 }
 
 .folder:active {
     background-color: var(--vscode-button-background);
+}
+
+.lines {
+    width: 25px !important;
+    margin-right: 3px !important;
 }

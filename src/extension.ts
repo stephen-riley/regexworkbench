@@ -230,8 +230,8 @@ class RegexWorkbenchPanel {
 
 		const nonce = this._getNonce();
 
-		const [regexworkbenchBaseUri, jqueryjsUri, iconsUri] =
-			["regexworkbench", "jquery-3.4.1.min.js", "iconicss.min.css"]
+		const [workbenchjsUri, workbenchcssUri, jqueryjsUri, iconsUri, linedtajsUri, linedtacssUri] =
+			["js/regexworkbench.js", "css/regexworkbench.css", "js/jquery-3.4.1.min.js", "css/iconicss.min.css", "js/jquery-linedtextarea.js", "css/jquery-linedtextarea.css"]
 				.map(script => {
 					const pathOnDisk = vscode.Uri.file(path.join(this._extensionPath, 'media', script));
 					const uri = webview.asWebviewUri(pathOnDisk);
@@ -246,10 +246,13 @@ class RegexWorkbenchPanel {
 				<meta charset="UTF-8">
 				<meta
 					http-equiv="Content-Security-Policy"
-					content="default-src 'none'; script-src 'nonce-${nonce}'; style-src ${webview.cspSource};"
+					content="default-src 'none'; script-src 'nonce-${nonce}'; style-src ${webview.cspSource} 'unsafe-inline';"
 				/>
-				<link rel="stylesheet" type="text/css" href="${regexworkbenchBaseUri}.css">
+
 				<link rel="stylesheet" type="text/css" href="${iconsUri}">
+				<link rel="stylesheet" type="text/css" href="${linedtacssUri}">
+				<link rel="stylesheet" type="text/css" href="${workbenchcssUri}">
+
 				<title>Regular Expression Workbench</title>
 			</head>
 
@@ -264,31 +267,41 @@ class RegexWorkbenchPanel {
 
 				<div id="regex-section" class="section">
 					<span class="section-header">Regular Expression</span>
-					<textarea id="regex" class="ta"></textarea>
-					<span class="switchpanel">
-						&nbsp;/
-						<span id="i-switch" class="switch">i</span>
-						<span id="m-switch" class="switch">m</span>
-						<span id="s-switch" class="switch">s</span>
-					</span>
+					<div class="regex-panel">
+						<table>
+							<tr>
+								<td class="regex-td">
+									<textarea id="regex" class="ta lined"></textarea>
+								</td>
+								<td width="85px">
+									<span class="switchpanel">
+										&nbsp;/
+										<span id="i-switch" class="switch">i</span>
+										<span id="m-switch" class="switch">m</span>
+										<span id="s-switch" class="switch">s</span>
+									</span>
+								</td>
+							</tr>
+						</table>
+					</div>
 				</div>
 
 				<div id="replacement-section" class="section">
 					<span class="section-header">Replacement</span>
-					<div id="replacement" class="ta" contenteditable="true"></div>
+					<textarea id="replacement" class="ta lined"></textarea>
 				</div>
 
 				<div id="search-section" class="section">
 					<span class="section-header ta">
 						Search Text
-						<span class="folder"><i class="icss-folder-open"></i></span>
+						<span id="folder" class="folder"><i class="icss-folder-open"></i></span>
 					</span>
-					<div id="search" class="ta numbered" contenteditable="true"></div>
+					<textarea id="search" class="ta lined"></textarea>
 				</div>
 
 				<div id="replaced-section" class="section">
 					<span class="section-header">Replaced Text</span>
-					<div id="replaced" class="ta numbered"></div>
+					<textarea id="replaced" class="ta lined" readonly></textarea>
 				</div>
 
 				<div id="results-section" class="section">
@@ -298,11 +311,12 @@ class RegexWorkbenchPanel {
 
 				<div id="splitresults-section" class="section">
 					<span class="section-header">Split Results</span>
-					<div id="splitresults" class="ta numbered"></div>
+					<div id="splitresults" class="ta lined"></div>
 				</div>
 
 				<script nonce="${nonce}" src="${jqueryjsUri}"></script>
-				<script nonce="${nonce}" type="module" src="${regexworkbenchBaseUri}.js"></script>
+				<script nonce="${nonce}" src="${linedtajsUri}"></script>
+				<script nonce="${nonce}" type="module" src="${workbenchjsUri}"></script>
 			</body>
 
 			</html>

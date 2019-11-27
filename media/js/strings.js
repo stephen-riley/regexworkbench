@@ -14,6 +14,7 @@ const Tooltips = {
         '#replaced-section': null,
         '#results-section': 'Match results.  Group 0 is entire match; other groups are capture groups.',
         '#splitresults': null,
+        '#folder': 'Open a file to use as search text'
     }
 };
 
