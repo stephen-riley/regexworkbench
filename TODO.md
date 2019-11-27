@@ -12,8 +12,12 @@
 
 ## For 1.0
 
+- [ ] Rearrange UI to not be so vertical
+
+## Nice-to-have
+
 - [ ] Support extended regexes (nice to have)
-- [ ] Add drop-down of regex syntax patterns
 - [ ] Highlight matched text in search text
 - [ ] Highlight matched text in replaced text
-- [ ] Add a menu of examples
+- [ ] Add drop-down of regex syntax patterns
+- [ ] Add a menu of full examples
