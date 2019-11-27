@@ -96,7 +96,7 @@ function buildResultsTable(results, parent) {
 
 function match() {
     const regex = new MultiRegExp2(new RegExp($('#regex').val(), getSwitches()));
-    const search = $('#search').innerText();
+    const search = $('#search').val();
     let results = [];
 
     const execResults = regex.execForAllGroups(search, true);
@@ -111,7 +111,7 @@ function match() {
 
 function matchAll() {
     const regex = new MultiRegExp2(new RegExp($('#regex').val(), "g" + getSwitches()));
-    const search = $('#search').innerText();
+    const search = $('#search').val();
 
     let results = [];
     let iteration;
@@ -127,7 +127,7 @@ function matchAll() {
 
 function split() {
     const regex = new RegExp($('#regex').val(), "g" + getSwitches());
-    const search = $('#search').innerText();
+    const search = $('#search').val();
 
     const items = search.split(regex).map(s => s.replace(/[\r\n]/g, "&nbsp;"));
     const results = items.map(item => `<span class="nl">${item}</span>`).join('');
@@ -138,19 +138,19 @@ function split() {
 function replace() {
     match();
     const regex = new RegExp($('#regex').val(), getSwitches());
-    const search = $('#search').innerText();
-    const replacement = $('#replacement').innerText();
+    const search = $('#search').val();
+    const replacement = $('#replacement').val();
 
-    $('#replaced').innerText(search.replace(regex, replacement));
+    $('#replaced').val(search.replace(regex, replacement));
 };
 
 function replaceAll() {
     matchAll();
     const regex = new RegExp($('#regex').val(), "g" + getSwitches());
-    const search = $('#search').innerText();
-    const replacement = $('#replacement').innerText();
+    const search = $('#search').val();
+    const replacement = $('#replacement').val();
 
-    $('#replaced').innerText(search.replace(regex, replacement));
+    $('#replaced').val(search.replace(regex, replacement));
 };
 
 function processResults(r) {
@@ -206,8 +206,8 @@ function onReplacementChange(_) {
 function updateStateInHost() {
     const state = {
         regex: $('#regex').val(),
-        search: $('#search').innerText(),
-        replacement: $('#replacement').innerText(),
+        search: $('#search').val(),
+        replacement: $('#replacement').val(),
         mode: $('.mode-btn.selected')[0].id.replace("-btn", ""),
         switches: {
             i: $('#i-switch.selected').length > 0,
@@ -249,8 +249,8 @@ function infoWindow(msg) {
 
 function setUiState(state) {
     $('#regex').val(state.regex);
-    $('#search').innerText(state.search);
-    $('#replacement').innerText(state.replacement);
+    $('#search').val(state.search);
+    $('#replacement').val(state.replacement);
 
     const buttonId = `#${state.mode}-btn`;
     $(buttonId).click();
@@ -290,16 +290,6 @@ function wireThClick() {
     });
 }
 
-jQuery.fn.extend({
-    innerText: function (arg) {
-        if (arguments.length == 0) {
-            return $(this)[0].innerText;
-        } else {
-            $(this)[0].innerText = arg;
-        }
-    }
-});
-
 function setTooltips() {
     const browserLang = navigator.language.substring(0, 2);
     const lang = browserLang in Tooltips
@@ -317,6 +307,8 @@ function setTooltips() {
 
 $(document).ready(() => {
     applyVscodeThemeCss();
+
+    // $(".lined").linedtextarea();
 
     $('#regex').bind('input propertychange', onRegexChange);
     $('#search').bind('input propertychange', onSearchChange);
