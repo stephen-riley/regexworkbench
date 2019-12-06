@@ -53,19 +53,16 @@ button.selected.vscode-high-contrast {
 .col1 {
     grid-column-start: 1;
     grid-column-end: 1;
-    border: 1px solid red;
 }
 
 .col2 {
     grid-column-start: 2;
     grid-column-end: 2;
-    border: 1px solid red;
 }
 
 .col-all {
     grid-column-start: 1;
     grid-column-end: 3;
-    border: 1px solid red;
 }
 
 .section-header {
@@ -101,6 +98,8 @@ button.selected.vscode-high-contrast {
     padding: 4px;
     white-space: pre;
     grid-row: 1;
+    font-family: var(--vscode-editor-font-family);
+    font-size: 11px;
 }
 
 #search {

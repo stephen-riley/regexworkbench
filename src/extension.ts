@@ -271,7 +271,7 @@ class RegexWorkbenchPanel {
 							<table>
 								<tr>
 									<td class="regex-td">
-										<textarea id="regex" class="ta lined"></textarea>
+										<textarea id="regex" class="ta lined" style="width:100%"></textarea>
 									</td>
 									<td width="85px" valign="top">
 										<span class="switchpanel">
@@ -288,7 +288,7 @@ class RegexWorkbenchPanel {
 
 					<div id="replacement-section" class="section col2">
 						<span class="section-header">Replacement</span>
-						<textarea id="replacement" class="ta lined"></textarea>
+						<textarea id="replacement" class="ta lined" style="width:100%"></textarea>
 					</div>
 
 					<div id="search-section" class="section col1">
@@ -296,12 +296,12 @@ class RegexWorkbenchPanel {
 							Search Text
 							<span id="folder" class="folder">open</span>
 						</span>
-						<textarea id="search" class="ta lined"></textarea>
+						<textarea id="search" class="ta lined" style="width:100%"></textarea>
 					</div>
 
 					<div id="replaced-section" class="section col2">
 						<span class="section-header">Replaced Text</span>
-						<textarea id="replaced" class="ta lined" readonly></textarea>
+						<textarea id="replaced" class="ta lined" readonly style="width:100%"></textarea>
 					</div>
 
 					<div id="results-section" class="section col-all">

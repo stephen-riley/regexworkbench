@@ -1,4 +1,13 @@
 /**
+ * NOTE: This is a modified version of Alan Williamson's jquery-linedtextarea plugin.
+ *   The objective of the modifications is to use relative sizing for everything
+ *   so that dynamic resizing of the lined textareas is possible.  Also note that,
+ *   due to Chromium 66+ restrictions on reading external CSS rules from javascript,
+ *   you must specify any percentage-based widths on the textareas in their declaration
+ *   (eg. <textarea style="width:80%"></textarea>).
+ * 
+ *   Original attribution below:
+ * 
  * jQuery Lined Textarea Plugin 
  *   http://alan.blog-city.com/jquerylinedtextarea.htm
  *
@@ -42,7 +51,6 @@
 		var opts = $.extend({}, $.fn.linedtextarea.defaults, options);
 		var LINEHEIGHT = 15;
 
-
 		/*
 		 * Helper function to make sure the line numbers are always
 		 * kept up to the current system
@@ -59,24 +67,21 @@
 			return lineNo;
 		};
 
-
 		/*
 		 * Iterate through each of the elements are to be applied to
 		 */
 		return this.each(function () {
 			var lineNo = 1;
 			var textarea = $(this);
-			var originalTextareaCssWidth = _getDeclaredWidthById($(this).attr('id')) || textarea.css('width');
 
 			/* Turn off the wrapping of as we don't want to screw up the line numbers */
 			textarea.attr("wrap", "off");
-			textarea.css('background-color', 'red');
 			textarea.css({ resize: 'none' });
-			var originalTextAreaWidth = textarea.outerWidth();
+			var originalTextareaCssWidth = textarea.get(0).style.width || (textarea.css('width') + 'px');
 
 			/* Wrap the text area in the elements we need */
 			textarea.wrap("<div class='linedtextarea'></div>");
-			var linedTextAreaDiv = textarea.parent().wrap("<div class='linedwrap' style='width:" + originalTextAreaWidth + "px'></div>");
+			var linedTextAreaDiv = textarea.parent().wrap("<div class='linedwrap' style='width:" + originalTextareaCssWidth + "px'></div>");
 			var linedWrapDiv = linedTextAreaDiv.parent();
 
 			linedWrapDiv.prepend("<div class='lines' style='width:50px'></div>");
@@ -84,7 +89,6 @@
 
 			var linesDiv = linedWrapDiv.find(".lines");
 			linesDiv.height(textarea.height() + 6);
-
 
 			/* Draw the number bar; filling it out where necessary */
 			linesDiv.append("<div class='codelines'></div>");
@@ -143,34 +147,5 @@
 		selectedLine: -1,
 		selectedClass: 'lineselect'
 	};
-
-	function _getDeclaredWidthById(elementId) {
-		function _collateRules() {
-			let rules = [];
-			for (const sheet of document.styleSheets) {
-				try {
-					for (const rule of sheet.rules) {
-						rules.push(rule);
-					}
-				} catch { }
-			}
-
-			return rules;
-		}
-
-		const id = `#${elementId}`;
-
-		for (const rule of _collateRules()) {
-			if (rule.selectorText === id) {
-				for (const index in rule.style) {
-					if (rule.style[index] === 'width') {
-						return rule.style.width;
-					}
-				}
-			}
-		}
-
-		return $(id).width();
-	}
 
 })(jQuery);
