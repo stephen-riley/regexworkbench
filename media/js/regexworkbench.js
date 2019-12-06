@@ -331,9 +331,6 @@ $(document).ready(() => {
 
     $('.folder').click(() => { vscode.postMessage({ command: "loadsearchtext" }); });
 
-    $('#results').css('font-size', $('#regex').css('font-size'));
-    $('#splitresults').css('font-size', $('#regex').css('font-size'));
-
     setTooltips();
 
     window.addEventListener('message', e => {

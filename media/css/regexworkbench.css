@@ -85,7 +85,6 @@ button.selected.vscode-high-contrast {
 .switchpanel {
     font-family: monospace;
     font-weight: bold;
-    padding-left: 6px;
 }
 
 .switch {
@@ -141,6 +140,8 @@ button.selected.vscode-high-contrast {
 }
 
 #splitresults {
+    font-family: var(--vscode-editor-font-family);
+    font-size: 11px;
     height: 150px;
     grid-row: 3;
 }
@@ -149,6 +150,7 @@ button.selected.vscode-high-contrast {
     padding: 4px;
     height: 150px;
     font-family: var(--vscode-editor-font-family);
+    font-size: 11px;
     outline: 1px solid var(--vscode-checkbox-foreground);
     overflow-y: scroll;
     grid-row: 3;

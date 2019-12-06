@@ -273,7 +273,7 @@ class RegexWorkbenchPanel {
 									<td class="regex-td">
 										<textarea id="regex" class="ta lined"></textarea>
 									</td>
-									<td width="85px">
+									<td width="85px" valign="top">
 										<span class="switchpanel">
 											&nbsp;/
 											<span id="i-switch" class="switch">i</span>
