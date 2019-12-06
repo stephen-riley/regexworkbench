@@ -45,12 +45,33 @@ button.selected.vscode-high-contrast {
     width: 100%;
 }
 
+#container {
+    display: grid;
+    grid-template-columns: 58% 42%;
+}
+
+.col1 {
+    grid-column-start: 1;
+    grid-column-end: 1;
+}
+
+.col2 {
+    grid-column-start: 2;
+    grid-column-end: 2;
+}
+
+.col-all {
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
 .section-header {
     display: block;
 }
 
 .section {
-    padding-bottom: 20px;
+    padding-bottom: 15px;
+    padding-right: 20px;
 }
 
 .selected {
@@ -61,7 +82,6 @@ button.selected.vscode-high-contrast {
 .switchpanel {
     font-family: monospace;
     font-weight: bold;
-    float: right;
 }
 
 .switch {
@@ -77,10 +97,13 @@ button.selected.vscode-high-contrast {
     height: 16px;
     padding: 4px;
     white-space: pre;
+    grid-row: 1;
+    font-family: var(--vscode-editor-font-family);
+    font-size: 11px;
 }
 
 #search {
-    padding: 4px;
+    padding: 4px 0 4px 4px;
     height: 100px;
     overflow: auto;
     font-family: var(--vscode-editor-font-family);
@@ -88,6 +111,7 @@ button.selected.vscode-high-contrast {
     background-color: var(--vscode-editor-background);
     color: var(--vscode-editor-foreground);
     white-space: pre;
+    grid-row: 2;
 }
 
 #replacement {
@@ -99,6 +123,7 @@ button.selected.vscode-high-contrast {
     background-color: var(--vscode-editor-background);
     color: var(--vscode-editor-foreground);
     white-space: pre;
+    grid-row: 1;
 }
 
 #replaced {
@@ -110,18 +135,24 @@ button.selected.vscode-high-contrast {
     background-color: var(--vscode-editor-background);
     color: var(--vscode-editor-foreground);
     white-space: pre;
+    grid-row: 2;
 }
 
 #splitresults {
+    font-family: var(--vscode-editor-font-family);
+    font-size: 11px;
     height: 150px;
+    grid-row: 3;
 }
 
 #results {
     padding: 4px;
     height: 150px;
     font-family: var(--vscode-editor-font-family);
+    font-size: 11px;
     outline: 1px solid var(--vscode-checkbox-foreground);
     overflow-y: scroll;
+    grid-row: 3;
 }
 
 #results::-webkit-scrollbar {
@@ -161,7 +192,9 @@ button.selected.vscode-high-contrast {
 .folder {
     float: right;
     cursor: default;
-    padding-bottom: 3px;
+    border: 1px solid var(--vscode-checkbox-foreground);
+    font-size: 0.8em;
+    padding: 0 2px 0 2px;
 }
 
 .folder:active {
