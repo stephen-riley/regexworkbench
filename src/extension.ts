@@ -28,7 +28,7 @@ const defaultState: RegexWorkbenchPanelState = {
 	regex: "(there)",
 	search: "hello there!",
 	replacement: "world",
-	mode: "match",
+	mode: "replace",
 	switches: {
 		i: false,
 		m: false,
@@ -132,7 +132,11 @@ class RegexWorkbenchPanel {
 				switch (message.command) {
 					case 'stateChange':
 						this._state = JSON.parse(message.text);
-						this._writeState();
+						if (this._state.regex === "JSR:reset") {
+							this._resetState();
+						} else {
+							this._writeState();
+						}
 						return;
 					case 'ready':
 						this._setState();
@@ -208,6 +212,12 @@ class RegexWorkbenchPanel {
 		extensionContext.globalState.update(iKey, this._state.switches.i);
 		extensionContext.globalState.update(mKey, this._state.switches.m);
 		extensionContext.globalState.update(sKey, this._state.switches.s);
+	}
+
+	private _resetState() {
+		this._state = defaultState;
+		this._writeState();
+		this._setState();
 	}
 
 	private _update() {
