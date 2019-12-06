@@ -12,7 +12,8 @@
 
 ## For 1.0
 
-- [ ] Rearrange UI to not be so vertical
+- [x] Rearrange UI to not be so vertical
+- [ ] Add documentation and gif to README
 
 ## Nice-to-have
 
