@@ -45,12 +45,36 @@ button.selected.vscode-high-contrast {
     width: 100%;
 }
 
+#container {
+    display: grid;
+    grid-template-columns: 58% 42%;
+}
+
+.col1 {
+    grid-column-start: 1;
+    grid-column-end: 1;
+    border: 1px solid red;
+}
+
+.col2 {
+    grid-column-start: 2;
+    grid-column-end: 2;
+    border: 1px solid red;
+}
+
+.col-all {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    border: 1px solid red;
+}
+
 .section-header {
     display: block;
 }
 
 .section {
-    padding-bottom: 20px;
+    padding-bottom: 15px;
+    padding-right: 20px;
 }
 
 .selected {
@@ -61,7 +85,7 @@ button.selected.vscode-high-contrast {
 .switchpanel {
     font-family: monospace;
     font-weight: bold;
-    float: right;
+    padding-left: 6px;
 }
 
 .switch {
@@ -77,10 +101,11 @@ button.selected.vscode-high-contrast {
     height: 16px;
     padding: 4px;
     white-space: pre;
+    grid-row: 1;
 }
 
 #search {
-    padding: 4px;
+    padding: 4px 0 4px 4px;
     height: 100px;
     overflow: auto;
     font-family: var(--vscode-editor-font-family);
@@ -88,6 +113,7 @@ button.selected.vscode-high-contrast {
     background-color: var(--vscode-editor-background);
     color: var(--vscode-editor-foreground);
     white-space: pre;
+    grid-row: 2;
 }
 
 #replacement {
@@ -99,6 +125,7 @@ button.selected.vscode-high-contrast {
     background-color: var(--vscode-editor-background);
     color: var(--vscode-editor-foreground);
     white-space: pre;
+    grid-row: 1;
 }
 
 #replaced {
@@ -110,10 +137,12 @@ button.selected.vscode-high-contrast {
     background-color: var(--vscode-editor-background);
     color: var(--vscode-editor-foreground);
     white-space: pre;
+    grid-row: 2;
 }
 
 #splitresults {
     height: 150px;
+    grid-row: 3;
 }
 
 #results {
@@ -122,6 +151,7 @@ button.selected.vscode-high-contrast {
     font-family: var(--vscode-editor-font-family);
     outline: 1px solid var(--vscode-checkbox-foreground);
     overflow-y: scroll;
+    grid-row: 3;
 }
 
 #results::-webkit-scrollbar {
@@ -161,7 +191,9 @@ button.selected.vscode-high-contrast {
 .folder {
     float: right;
     cursor: default;
-    padding-bottom: 3px;
+    border: 1px solid var(--vscode-checkbox-foreground);
+    font-size: 0.8em;
+    padding: 0 2px 0 2px;
 }
 
 .folder:active {

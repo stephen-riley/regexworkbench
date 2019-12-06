@@ -230,8 +230,8 @@ class RegexWorkbenchPanel {
 
 		const nonce = this._getNonce();
 
-		const [workbenchjsUri, workbenchcssUri, jqueryjsUri, iconsUri, linedtajsUri, linedtacssUri] =
-			["js/regexworkbench.js", "css/regexworkbench.css", "js/jquery-3.4.1.min.js", "css/iconicss.min.css", "js/jquery-linedtextarea.js", "css/jquery-linedtextarea.css"]
+		const [workbenchjsUri, workbenchcssUri, jqueryjsUri, linedtajsUri, linedtacssUri] =
+			["js/regexworkbench.js", "css/regexworkbench.css", "js/jquery-3.4.1.min.js", "js/jquery-linedtextarea.js", "css/jquery-linedtextarea.css"]
 				.map(script => {
 					const pathOnDisk = vscode.Uri.file(path.join(this._extensionPath, 'media', script));
 					const uri = webview.asWebviewUri(pathOnDisk);
@@ -249,7 +249,6 @@ class RegexWorkbenchPanel {
 					content="default-src 'none'; script-src 'nonce-${nonce}'; style-src ${webview.cspSource} 'unsafe-inline';"
 				/>
 
-				<link rel="stylesheet" type="text/css" href="${iconsUri}">
 				<link rel="stylesheet" type="text/css" href="${linedtacssUri}">
 				<link rel="stylesheet" type="text/css" href="${workbenchcssUri}">
 
@@ -265,53 +264,55 @@ class RegexWorkbenchPanel {
 					<button id="replaceall-btn" class="mode-btn">Replace All</button>
 				</div>
 
-				<div id="regex-section" class="section">
-					<span class="section-header">Regular Expression</span>
-					<div class="regex-panel">
-						<table>
-							<tr>
-								<td class="regex-td">
-									<textarea id="regex" class="ta lined"></textarea>
-								</td>
-								<td width="85px">
-									<span class="switchpanel">
-										&nbsp;/
-										<span id="i-switch" class="switch">i</span>
-										<span id="m-switch" class="switch">m</span>
-										<span id="s-switch" class="switch">s</span>
-									</span>
-								</td>
-							</tr>
-						</table>
+				<div id="container">
+					<div id="regex-section" class="section col1">
+						<span class="section-header">Regular Expression</span>
+						<div class="regex-panel">
+							<table>
+								<tr>
+									<td class="regex-td">
+										<textarea id="regex" class="ta lined"></textarea>
+									</td>
+									<td width="85px">
+										<span class="switchpanel">
+											&nbsp;/
+											<span id="i-switch" class="switch">i</span>
+											<span id="m-switch" class="switch">m</span>
+											<span id="s-switch" class="switch">s</span>
+										</span>
+									</td>
+								</tr>
+							</table>
+						</div>
 					</div>
-				</div>
 
-				<div id="replacement-section" class="section">
-					<span class="section-header">Replacement</span>
-					<textarea id="replacement" class="ta lined"></textarea>
-				</div>
+					<div id="replacement-section" class="section col2">
+						<span class="section-header">Replacement</span>
+						<textarea id="replacement" class="ta lined"></textarea>
+					</div>
 
-				<div id="search-section" class="section">
-					<span class="section-header ta">
-						Search Text
-						<span id="folder" class="folder"><i class="icss-folder-open"></i></span>
-					</span>
-					<textarea id="search" class="ta lined"></textarea>
-				</div>
+					<div id="search-section" class="section col1">
+						<span class="section-header ta">
+							Search Text
+							<span id="folder" class="folder">open</span>
+						</span>
+						<textarea id="search" class="ta lined"></textarea>
+					</div>
 
-				<div id="replaced-section" class="section">
-					<span class="section-header">Replaced Text</span>
-					<textarea id="replaced" class="ta lined" readonly></textarea>
-				</div>
+					<div id="replaced-section" class="section col2">
+						<span class="section-header">Replaced Text</span>
+						<textarea id="replaced" class="ta lined" readonly></textarea>
+					</div>
 
-				<div id="results-section" class="section">
-					<span class="section-header">Replace Results</span>
-					<div id="results" class="ta"></div>
-				</div>
+					<div id="results-section" class="section col-all">
+						<span class="section-header">Replace Results</span>
+						<div id="results" class="ta"></div>
+					</div>
 
-				<div id="splitresults-section" class="section">
-					<span class="section-header">Split Results</span>
-					<div id="splitresults" class="ta lined"></div>
+					<div id="splitresults-section" class="section col-all">
+						<span class="section-header">Split Results</span>
+						<div id="splitresults" class="ta"></div>
+					</div>
 				</div>
 
 				<script nonce="${nonce}" src="${jqueryjsUri}"></script>

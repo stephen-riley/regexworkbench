@@ -4,14 +4,24 @@ import MultiRegExp2 from './multiRegExp2.js';
 import Tooltips from './strings.js';
 
 const displayMap = {
-    'match-btn': ['mode', 'regex', 'search', 'results'],
-    'matchall-btn': ['mode', 'regex', 'search', 'results'],
-    'split-btn': ['mode', 'regex', 'search', 'splitresults'],
-    'replace-btn': ['mode', 'regex', 'replacement', 'search', 'replaced', 'results'],
-    'replaceall-btn': ['mode', 'regex', 'replacement', 'search', 'replaced', 'results'],
+    'match-btn': [['mode', 'regex', 'search', 'results'], showMatchUI],
+    'matchall-btn': [['mode', 'regex', 'search', 'results'], showMatchUI],
+    'split-btn': [['mode', 'regex', 'search', 'splitresults'], showMatchUI],
+    'replace-btn': [['mode', 'regex', 'replacement', 'search', 'replaced', 'results'], showReplaceUI],
+    'replaceall-btn': [['mode', 'regex', 'replacement', 'search', 'replaced', 'results'], showReplaceUI],
 };
 
 const vscode = acquireVsCodeApi();
+
+function showMatchUI() {
+    $('#regex-section').removeClass("col1").addClass("col-all");
+    $('#search-section').removeClass("col1").addClass("col-all");
+}
+
+function showReplaceUI() {
+    $('#regex-section').removeClass("col-all").addClass("col1");
+    $('#search-section').removeClass("col-all").addClass("col1");
+}
 
 function updateModeButtons(el) {
     $('.mode-btn').each((_, btn) => {
@@ -23,7 +33,7 @@ function updateModeButtons(el) {
     });
 
     const selectedId = $('.selected')[0].id;
-    const toBeDisplayed = displayMap[selectedId].reduce((m, x) => {
+    const toBeDisplayed = displayMap[selectedId][0].reduce((m, x) => {
         m[`${x}-section`] = 0;
         return m;
     }, {});
@@ -35,6 +45,8 @@ function updateModeButtons(el) {
             $(`#${section.id}`).hide();
         }
     });
+
+    displayMap[selectedId][1]();
 
     execute();
 };
@@ -308,7 +320,7 @@ function setTooltips() {
 $(document).ready(() => {
     applyVscodeThemeCss();
 
-    // $(".lined").linedtextarea();
+    $(".lined").linedtextarea();
 
     $('#regex').bind('input propertychange', onRegexChange);
     $('#search').bind('input propertychange', onSearchChange);
