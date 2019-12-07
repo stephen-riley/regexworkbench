@@ -1,10 +1,16 @@
-# regexworkbench README
+# Preview
 
-A regular expression workbench in the style of Komodo's.
+![demo](regexworkbench.gif)
 
-See [`CHANGELOG.md`](https://github.com/stephen-riley/regexworkbench/blob/master/CHANGELOG.md) and [`TODO.md`](https://github.com/stephen-riley/regexworkbench/blob/master/TODO.md) for latest status.
+## Description
 
-## Sideloading from github
+A regular expression workbench for Visual Studio Code in the style of [Komodo's](https://www.activestate.com/products/komodo-ide/).  Just click on the slash-star-slash icon in the lower right.
+
+Currently supports match, match all, split, replace, and replace all.
+
+(Note: only supports JavaScript regular expressions at this time.)
+
+## Sideloading from a local build
 
 Make sure you have Node.js installed, then run:
 
@@ -14,4 +20,6 @@ Clone the repo and `cd` into its directory, then run:
 
 `vsce package`
 
-`code --install-extension regexworkbench-0.1.0.vsix`
+`code --install-extension regexworkbench-<version>.vsix`
+
+(The `version` comes from package.json.)

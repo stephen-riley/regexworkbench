@@ -1,10 +1,22 @@
 {
 	"name": "regexworkbench",
-	"displayName": "regexworkbench",
-	"description": "",
+	"displayName": "Regex Workbench",
+	"description": "A workbench to design, test, and experiment with regular expressions",
+	"keywords": [
+		"regex",
+		"regexes",
+		"regexp",
+		"workbench",
+		"regular expression"
+	],
+	"icon": "icon.png",
 	"publisher": "stephen-riley",
-	"repository": "https://github.com/stephen-riley/regexworkbench",
-	"version": "0.1.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/stephen-riley/regexworkbench"
+	},
+	"version": "0.99.3",
+	"preview": false,
 	"engines": {
 		"vscode": "^1.39.0"
 	},
