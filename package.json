@@ -15,7 +15,7 @@
 		"type": "git",
 		"url": "https://github.com/stephen-riley/regexworkbench"
 	},
-	"version": "0.99.3",
+	"version": "0.99.4",
 	"preview": false,
 	"engines": {
 		"vscode": "^1.39.0"
