@@ -317,8 +317,23 @@ function setTooltips() {
     }
 }
 
+function wireUpThemeDetection() {
+    const observer = new MutationObserver(mutations => {
+        mutations.forEach(m => {
+            if (m.attributeName === "class") {
+                applyVscodeThemeCss();
+            }
+        });
+    });
+
+    observer.observe($('body').get(0), {
+        attributes: true
+    });
+}
+
 $(document).ready(() => {
-    applyVscodeThemeCss();
+
+    wireUpThemeDetection();
 
     $(".lined").linedtextarea();
 
@@ -343,4 +358,5 @@ $(document).ready(() => {
     });
 
     vscode.postMessage({ command: "ready" });
+
 });

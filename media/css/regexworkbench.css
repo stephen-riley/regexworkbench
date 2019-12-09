@@ -1,4 +1,8 @@
 
+:root {
+    --border-color: #c0c0c0;
+}
+
 body {
     font-family: sans-serif;
     padding-top: 20px;
@@ -33,7 +37,7 @@ button.selected.vscode-dark {
 button.selected.vscode-high-contrast {
     background-color: var(--vscode-editor-background);
     color: var(--vscode-editor-foreground);
-    outline: 2px solid var(--vscode-editor-foreground);
+    outline: 2px solid var(--border-color);
 }
 
 .nl {
@@ -85,7 +89,7 @@ button.selected.vscode-high-contrast {
 }
 
 .switch {
-    border: 1px solid gray;
+    border: 1px solid var(--border-color);
 }
 
 .regex-panel table {
@@ -150,7 +154,7 @@ button.selected.vscode-high-contrast {
     height: 150px;
     font-family: var(--vscode-editor-font-family);
     font-size: 11px;
-    outline: 1px solid var(--vscode-checkbox-foreground);
+    outline: 1px solid var(--border-color);
     overflow-y: scroll;
     grid-row: 3;
 }
@@ -184,7 +188,7 @@ button.selected.vscode-high-contrast {
 #splitresults {
     height: 150px;
     font-family: var(--vscode-editor-font-family);
-    outline: 1px solid var(--vscode-checkbox-foreground);
+    outline: 1px solid var(--border-color);
     overflow: scroll;
     white-space: pre;
 }
@@ -192,7 +196,7 @@ button.selected.vscode-high-contrast {
 .folder {
     float: right;
     cursor: default;
-    border: 1px solid var(--vscode-checkbox-foreground);
+    border: 1px solid var(--border-color);
     font-size: 0.8em;
     padding: 0 2px 0 2px;
 }
