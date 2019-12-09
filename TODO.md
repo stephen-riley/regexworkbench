@@ -13,7 +13,7 @@
 ## For 1.0
 
 - [x] Rearrange UI to not be so vertical
-- [ ] Add documentation and gif to README
+- [x] Add documentation and gif to README
 
 ## Nice-to-have
 
