@@ -2,6 +2,8 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
+import PCRE from '@stephen-riley/pcre2-wasm';
+import * as regexecute from './regexecute';
 
 const cmdId = 'regexworkbench.start';
 const regexKey = "regexworkbench.regex";
@@ -11,6 +13,7 @@ const modeKey = "regexworkbench.mode";
 const iKey = "regexworkbench.i";
 const mKey = "regexworkbench.m";
 const sKey = "regexworkbench.s";
+const xKey = "regexworkbench.x";
 
 interface RegexWorkbenchPanelState {
 	regex: string;
@@ -21,6 +24,7 @@ interface RegexWorkbenchPanelState {
 		i: boolean;
 		m: boolean;
 		s: boolean;
+		x: boolean;
 	};
 }
 
@@ -32,7 +36,8 @@ const defaultState: RegexWorkbenchPanelState = {
 	switches: {
 		i: false,
 		m: false,
-		s: false
+		s: false,
+		x: false,
 	}
 };
 
@@ -41,7 +46,7 @@ let extensionContext: vscode.ExtensionContext;
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
+export async function activate(context: vscode.ExtensionContext) {
 	extensionContext = context;
 
 	context.subscriptions.push(
@@ -53,6 +58,8 @@ export function activate(context: vscode.ExtensionContext) {
 	statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
 	statusBarItem.command = cmdId;
 	context.subscriptions.push(statusBarItem);
+
+	PCRE.init();
 
 	statusBarItem.text = `/$(star)/`;
 	statusBarItem.show();
@@ -78,6 +85,8 @@ class RegexWorkbenchPanel {
 	private readonly _panel: vscode.WebviewPanel;
 	private readonly _extensionPath: string;
 	private _disposables: vscode.Disposable[] = [];
+
+	private _pcre: any;
 
 	private _state: RegexWorkbenchPanelState = defaultState;
 
@@ -146,6 +155,10 @@ class RegexWorkbenchPanel {
 						return;
 					case 'loadsearchtext':
 						this._loadSearchTextFile();
+						return;
+					case 'execute':
+						this._executeRegex(message);
+						return;
 				}
 			},
 			null,
@@ -160,11 +173,53 @@ class RegexWorkbenchPanel {
 
 		this._panel.dispose();
 
+		this._pcre.dispose();
+
 		while (this._disposables.length) {
 			const x = this._disposables.pop();
 			if (x) {
 				x.dispose();
 			}
+		}
+	}
+
+	private _executeRegex(msg: any): any {
+		try {
+			switch (msg.type) {
+				case 'match': {
+					const res = regexecute.match(msg.subject, msg.regex, msg.flags);
+					this._panel.webview.postMessage({ command: 'results', op: 'match', results: res });
+					break;
+				}
+				case 'matchall': {
+					const res = regexecute.matchAll(msg.subject, msg.regex, msg.flags);
+					this._panel.webview.postMessage({ command: 'results', op: 'matchAll', results: res });
+					break;
+				}
+				case 'split': {
+					const res = regexecute.split(msg.subject, msg.regex, msg.flags);
+					this._panel.webview.postMessage({ command: 'results', op: 'split', results: res });
+					break;
+				}
+				case 'replace': {
+					const res = regexecute.replace(msg.subject, msg.regex, msg.flags, msg.replacement);
+					this._panel.webview.postMessage({ command: 'results', op: 'replace', results: res });
+					break;
+				}
+				case 'replaceall': {
+					const res = regexecute.replaceAll(msg.subject, msg.regex, msg.flags, msg.replacement);
+					this._panel.webview.postMessage({ command: 'results', op: 'replaceAll', results: res });
+					break;
+				}
+			}
+		}
+		catch (e) {
+			let message = "Invalid regular expression";
+
+			message = 'message' in e ? message + `: ${e.message}` : message;
+			message = 'offset' in e ? message + ` (offset ${e.offset})` : message;
+
+			this._panel.webview.postMessage({ command: 'results', op: 'ERROR', results: { message } });
 		}
 	}
 
@@ -198,6 +253,7 @@ class RegexWorkbenchPanel {
 				i: extensionContext.globalState.get<boolean>(iKey) || defaultState.switches.i,
 				m: extensionContext.globalState.get<boolean>(mKey) || defaultState.switches.m,
 				s: extensionContext.globalState.get<boolean>(sKey) || defaultState.switches.s,
+				x: extensionContext.globalState.get<boolean>(xKey) || defaultState.switches.x,
 			}
 		};
 
@@ -212,6 +268,7 @@ class RegexWorkbenchPanel {
 		extensionContext.globalState.update(iKey, this._state.switches.i);
 		extensionContext.globalState.update(mKey, this._state.switches.m);
 		extensionContext.globalState.update(sKey, this._state.switches.s);
+		extensionContext.globalState.update(xKey, this._state.switches.x);
 	}
 
 	private _resetState() {
@@ -283,12 +340,13 @@ class RegexWorkbenchPanel {
 									<td class="regex-td">
 										<textarea id="regex" class="ta lined" style="width:100%"></textarea>
 									</td>
-									<td width="85px" valign="top">
+									<td width="90px" valign="top">
 										<span class="switchpanel">
 											&nbsp;/
 											<span id="i-switch" class="switch">i</span>
 											<span id="m-switch" class="switch">m</span>
 											<span id="s-switch" class="switch">s</span>
+											<span id="x-switch" class="switch">x</span>
 										</span>
 									</td>
 								</tr>

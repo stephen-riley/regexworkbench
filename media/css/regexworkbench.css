@@ -98,7 +98,7 @@ button.selected.vscode-high-contrast {
 }
 
 #regex {
-    height: 16px;
+    height: 100px;
     padding: 4px;
     white-space: pre;
     grid-row: 1;
