@@ -17,6 +17,7 @@ Some important things to note about PCRE2 as used in this extension:
 * This PCRE2 is compiled with [UTF-16 LE](https://en.wikipedia.org/wiki/UTF-16#Byte_order_encoding_schemes) character units under the hood, so you should have no problem with Unicode characters.
 * It does _not_ support Python replacement group references; eg. `"\1 \2"`.  You must use `"$1 $2"`.  `\1` is still supported as a backreference in regular expression patterns; eg. `((?i)rah)\s+\1`.
 * Named capture groups are supported in three syntaxes: `(?<name>...)`, `(?'name'...)`, and `(?P<name>...)`.
+* You can use named capture groups in the replacement text with the syntax `${name}`.
 
 ## Why the delay in loading this extension?
 
