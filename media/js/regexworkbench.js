@@ -57,22 +57,46 @@ function execute() {
 
     const selectedId = $('.selected')[0].id.replace("-btn", "");
 
-    try {
-        switch (selectedId) {
-            case 'match': match(); break;
-            case 'matchall': matchAll(); break;
-            case 'split': split(); break;
-            case 'replace': replace(); break;
-            case 'replaceall': replaceAll(); break;
+    vscode.postMessage({
+        command: 'execute',
+        type: selectedId,
+        regex: $('#regex').val(),
+        flags: getSwitches(),
+        subject: $('#search').val(),
+        replacement: $('#replacement').val(),
+    });
+}
+
+function processResults(r) {
+    switch (r.op) {
+        case 'match':
+            buildResultsTable(r.results, $('#results'));
+            break;
+        case 'matchAll':
+            buildResultsTable(r.results, $('#results'));
+            break;
+        case 'split': {
+            const items = r.results.map(s => s.replace(/[\r\n]/g, "&nbsp;"));
+            const results = items.map(item => `<span class="nl">${item}</span>`).join('');
+            $('#splitresults').empty().html(results);
+            break;
         }
-    } catch (e) {
-        console.log(e);
-        $('#results').html('Invalid regular expression');
-        $('#splitresults').html('Invalid regular expression');
+        case 'replace':
+            buildResultsTable(r.results.matches, $('#results'));
+            $('#replaced').val(r.results.result);
+            break;
+        case 'replaceAll':
+            buildResultsTable(r.results.matches, $('#results'));
+            $('#replaced').val(r.results.result);
+            break;
+        case 'ERROR':
+            $('#results').html(r.results.message);
+            $('#splitresults').html(r.results.message);
+            break;
     }
 
     updateStateInHost();
-};
+}
 
 function buildResultsTable(results, parent) {
     const tr = html => `<tr>${html}</tr>`;
@@ -84,18 +108,19 @@ function buildResultsTable(results, parent) {
 
     let matchIndex = 0;
     results.forEach(e => {
-        table += tr(th([`Match ${matchIndex}`, `${e.start}-${e.end}`, e.match]));
+        table += tr(th([`Match ${matchIndex}`, `${e[0].start}-${e[0].end}`, e[0].match]));
 
-        if (e.groups.length > 0) {
+        if (e.length > 0) {
             let groupIndex = 1;
-            e.groups.forEach(g => {
+            while (groupIndex < e.length) {
+                const g = e[groupIndex];
                 const title = 'name' in g
                     ? `Group ${groupIndex} (${g.name})`
                     : `Group ${groupIndex}`;
 
                 table += tr(td([title, `${g.start}-${g.end}`, g.match]));
                 groupIndex++;
-            });
+            }
         }
         matchIndex++;
     });
@@ -105,80 +130,6 @@ function buildResultsTable(results, parent) {
     $(parent).empty().html($(table));
     wireThClick();
 }
-
-function match() {
-    const regex = new MultiRegExp2(new RegExp($('#regex').val(), getSwitches()));
-    const search = $('#search').val();
-    let results = [];
-
-    const execResults = regex.execForAllGroups(search, true);
-    if (execResults != null) {
-        const match = execResults.shift();
-        match.groups = execResults;
-        results.push(match);
-    }
-
-    buildResultsTable(results, $('#results'));
-};
-
-function matchAll() {
-    const regex = new MultiRegExp2(new RegExp($('#regex').val(), "g" + getSwitches()));
-    const search = $('#search').val();
-
-    let results = [];
-    let iteration;
-
-    while ((iteration = regex.execForAllGroups(search, true)) != null) {
-        const match = iteration.shift();
-        match.groups = iteration;
-        results.push(match);
-    }
-
-    buildResultsTable(results, $('#results'));
-};
-
-function split() {
-    const regex = new RegExp($('#regex').val(), "g" + getSwitches());
-    const search = $('#search').val();
-
-    const items = search.split(regex).map(s => s.replace(/[\r\n]/g, "&nbsp;"));
-    const results = items.map(item => `<span class="nl">${item}</span>`).join('');
-
-    $('#splitresults').empty().html(results);
-};
-
-function replace() {
-    match();
-    const regex = new RegExp($('#regex').val(), getSwitches());
-    const search = $('#search').val();
-    const replacement = $('#replacement').val();
-
-    $('#replaced').val(search.replace(regex, replacement));
-};
-
-function replaceAll() {
-    matchAll();
-    const regex = new RegExp($('#regex').val(), "g" + getSwitches());
-    const search = $('#search').val();
-    const replacement = $('#replacement').val();
-
-    $('#replaced').val(search.replace(regex, replacement));
-};
-
-function processResults(r) {
-    if (r === null) {
-        return null;
-    }
-
-    let expanded = { results: [] };
-    for (let i = 0; i < r.length; i++) {
-        expanded.results[i] = r[i];
-    }
-    if ('groups' in r) {
-        expanded.groups = r.groups;
-    }
-    return expanded;
-};
 
 function getSwitches() {
     const switches = $('.switch.selected').get().reduce((p, el) => p + el.id.replace("-switch", ""), "");
@@ -353,6 +304,9 @@ $(document).ready(() => {
         switch (message.command) {
             case 'setState':
                 setUiState(message.state);
+                break;
+            case 'results':
+                processResults(message);
                 break;
         }
     });

@@ -15,9 +15,14 @@
 - [x] Rearrange UI to not be so vertical
 - [x] Add documentation and gif to README
 
+## For 2.0
+
+- [x] Use PCRE2 for regex execution
+- [x] Show named captures in results pane
+
 ## Nice-to-have
 
-- [ ] Support extended regexes (nice to have)
+- [x] Support extended regexes (came with PCRE2)
 - [ ] Highlight matched text in search text
 - [ ] Highlight matched text in replaced text
 - [ ] Add drop-down of regex syntax patterns
