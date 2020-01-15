@@ -21,7 +21,8 @@ All notable changes to the "regexworkbench" extension will be documented in this
 - Fixed some border color issues in light themes
 - Workbench changes UI as user changes theme in vscode
 
-## [v2.0.0](https://github.com/stephen-riley/regexworkbench/releases/tag/v2.0.0) - Jan 14, 2020
+## [v2.0.2](https://github.com/stephen-riley/regexworkbench/releases/tag/v2.0.2) - Jan 14, 2020
 
 - Now uses PCRE2 for all regex execution (see [stephen-riley/pcre2-wasm](https://github.com/stephen-riley/pcre2-wasm) for how)
 - Fully supports named capture groups
+- Misc bug fixes

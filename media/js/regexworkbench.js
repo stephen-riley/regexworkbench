@@ -1,6 +1,5 @@
 'use strict';
 
-import MultiRegExp2 from './multiRegExp2.js';
 import Tooltips from './strings.js';
 
 const displayMap = {
@@ -175,7 +174,8 @@ function updateStateInHost() {
         switches: {
             i: $('#i-switch.selected').length > 0,
             m: $('#m-switch.selected').length > 0,
-            s: $('#s-switch.selected').length > 0
+            s: $('#s-switch.selected').length > 0,
+            x: $('#x-switch.selected').length > 0
         }
     };
 
@@ -226,6 +226,9 @@ function setUiState(state) {
     }
     if (state.switches.s) {
         $('#s-switch').click();
+    }
+    if (state.switches.x) {
+        $('#x-switch').click();
     }
 };
 
