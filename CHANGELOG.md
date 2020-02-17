@@ -27,6 +27,6 @@ All notable changes to the "regexworkbench" extension will be documented in this
 - Fully supports named capture groups
 - Misc bug fixes
 
-## [v2.0.3](https://github.com/stephen-riley/regexworkbench/releases/tag/v2.0.3)
+## [v2.0.4](https://github.com/stephen-riley/regexworkbench/releases/tag/v2.0.4)
 
 - Replacements now support `PCRE2_SUBSTITUTE_EXTENDED` syntax (eg. upper- and lower-case conversion
