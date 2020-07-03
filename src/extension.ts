@@ -159,6 +159,8 @@ class RegexWorkbenchPanel {
 					case 'execute':
 						this._executeRegex(message);
 						return;
+					case 'refresh':
+						this._update();
 				}
 			},
 			null,

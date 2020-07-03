@@ -314,6 +314,25 @@ $(document).ready(() => {
         }
     });
 
+    var waitForFinalEvent = (() => {
+        var timers = {};
+        return (callback, ms, uniqueId) => {
+            if (!uniqueId) {
+                uniqueId = "Don't call this twice without a uniqueId";
+            }
+            if (timers[uniqueId]) {
+                clearTimeout(timers[uniqueId]);
+            }
+            timers[uniqueId] = setTimeout(callback, ms);
+        };
+    })();
+
+    $(window).resize(() => {
+        waitForFinalEvent(() => {
+            vscode.postMessage({ command: "refresh" });
+        }, 500, "reload handler");
+    });
+
     vscode.postMessage({ command: "ready" });
 
 });

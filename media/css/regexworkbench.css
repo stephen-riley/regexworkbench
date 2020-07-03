@@ -98,7 +98,7 @@ button.selected.vscode-high-contrast {
 }
 
 #regex {
-    height: 100px;
+    height: 25vh;
     padding: 4px;
     white-space: pre;
     grid-row: 1;
@@ -108,7 +108,7 @@ button.selected.vscode-high-contrast {
 
 #search {
     padding: 4px 0 4px 4px;
-    height: 100px;
+    height: 25vh;
     overflow: auto;
     font-family: var(--vscode-editor-font-family);
     font-size: 11px;
@@ -120,7 +120,7 @@ button.selected.vscode-high-contrast {
 
 #replacement {
     padding: 4px;
-    height: 100px;
+    height: 25vh;
     overflow: auto;
     font-family: var(--vscode-editor-font-family);
     font-size: 11px;
@@ -132,7 +132,7 @@ button.selected.vscode-high-contrast {
 
 #replaced {
     padding: 4px;
-    height: 100px;
+    height: 25vh;
     overflow: auto;
     font-family: var(--vscode-editor-font-family);
     font-size: 11px;
@@ -145,13 +145,13 @@ button.selected.vscode-high-contrast {
 #splitresults {
     font-family: var(--vscode-editor-font-family);
     font-size: 11px;
-    height: 150px;
+    height: 25vh;
     grid-row: 3;
 }
 
 #results {
     padding: 4px;
-    height: 150px;
+    height: 25vh;
     font-family: var(--vscode-editor-font-family);
     font-size: 11px;
     outline: 1px solid var(--border-color);
