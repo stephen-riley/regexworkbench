@@ -18,7 +18,7 @@
 	"version": "2.0.4",
 	"preview": false,
 	"engines": {
-		"vscode": "^1.42.0"
+		"vscode": "^1.48.0"
 	},
 	"categories": [
 		"Other"
@@ -46,17 +46,17 @@
 		"test": "node ./out/test/runTest.js"
 	},
 	"devDependencies": {
-		"@types/glob": "^7.1.1",
+		"@types/glob": "^7.1.3",
 		"@types/mocha": "^5.2.6",
-		"@types/node": "^10.17.15",
-		"@types/vscode": "^1.42.0",
+		"@types/node": "^10.17.28",
+		"@types/vscode": "^1.48.0",
 		"glob": "^7.1.6",
-		"mocha": "^6.1.4",
+		"mocha": "^6.2.3",
 		"tslint": "^5.20.1",
-		"typescript": "^3.7.5",
-		"vscode-test": "^1.3.0"
+		"typescript": "^3.9.7",
+		"vscode-test": "^1.4.0"
 	},
 	"dependencies": {
-		"@stephen-riley/pcre2-wasm": "^1.2.2"
+		"@stephen-riley/pcre2-wasm": "^1.2.3"
 	}
 }
