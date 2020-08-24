@@ -27,3 +27,4 @@
 - [ ] Highlight matched text in replaced text
 - [ ] Add drop-down of regex syntax patterns
 - [ ] Add a menu of full examples
+- [ ] Allow saving regex search/replace string pairs for later reuse [issue #10](https://github.com/stephen-riley/regexworkbench/issues/10)

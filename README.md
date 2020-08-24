@@ -2,6 +2,10 @@
 
 ![demo](regexworkbench.gif)
 
+Just click the regex star at the bottom right to get started.
+
+![click the star](click_the_star.png)
+
 ## Description
 
 A regular expression workbench for Visual Studio Code in the style of [Komodo's](https://www.activestate.com/products/komodo-ide/).  Just click on the slash-star-slash icon in the lower right.
