@@ -3,7 +3,8 @@
 ![demo](regexworkbench.gif)
 
 Just click the regex star at the bottom right to get started.
-![click the star](click_the_star.png | width=100)
+
+![click the star](click_the_star.png)
 
 ## Description
 
